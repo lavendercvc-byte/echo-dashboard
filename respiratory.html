@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>호흡기 핵심 개념 교육 자료</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1a;
+    --surface: #111827;
+    --surface2: #1a2234;
+    --border: #1e2d45;
+    --accent-blue: #3b9eff;
+    --accent-teal: #2dd4bf;
+    --accent-amber: #f59e0b;
+    --accent-red: #f87171;
+    --accent-green: #4ade80;
+    --accent-purple: #a78bfa;
+    --text: #e2e8f0;
+    --text-muted: #7a8a9e;
+    --text-dim: #4a5568;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #0a1628 50%, #0d1f35 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(59,158,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(45,212,191,0.06) 0%, transparent 60%);
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(59,158,255,0.12);
+    border: 1px solid rgba(59,158,255,0.3);
+    color: var(--accent-blue);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 900;
+    color: #fff;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  header h1 span {
+    color: var(--accent-blue);
+  }
+  header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  /* ── NAVIGATION ── */
+  .nav-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-item {
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .nav-item:hover { color: var(--text); border-bottom-color: var(--border); }
+  .nav-item.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 60px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 1px;
+    min-width: 30px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-blue { background: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue); }
+  .dot-teal { background: var(--accent-teal); box-shadow: 0 0 8px var(--accent-teal); }
+  .dot-amber { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); }
+  .dot-red { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+  .dot-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+  .dot-purple { background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    vertical-align: top;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(59,158,255,0.04); }
+  .th-blue { color: var(--accent-blue) !important; }
+  .th-teal { color: var(--accent-teal) !important; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .hb-blue { background: rgba(59,158,255,0.08); border-left: 3px solid var(--accent-blue); }
+  .hb-amber { background: rgba(245,158,11,0.08); border-left: 3px solid var(--accent-amber); }
+  .hb-red { background: rgba(248,113,113,0.08); border-left: 3px solid var(--accent-red); }
+  .hb-green { background: rgba(74,222,128,0.08); border-left: 3px solid var(--accent-green); }
+  .hb-teal { background: rgba(45,212,191,0.08); border-left: 3px solid var(--accent-teal); }
+  .hb-purple { background: rgba(167,139,250,0.08); border-left: 3px solid var(--accent-purple); }
+
+  .label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  .label-blue { background: rgba(59,158,255,0.15); color: var(--accent-blue); }
+  .label-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); }
+  .label-red { background: rgba(248,113,113,0.15); color: var(--accent-red); }
+  .label-green { background: rgba(74,222,128,0.15); color: var(--accent-green); }
+  .label-teal { background: rgba(45,212,191,0.15); color: var(--accent-teal); }
+  .label-purple { background: rgba(167,139,250,0.15); color: var(--accent-purple); }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-teal);
+    margin: 12px 0;
+    overflow-x: auto;
+  }
+  .formula-comment { color: var(--text-dim); }
+
+  /* ── ANALOGY BLOCK ── */
+  .analogy {
+    background: linear-gradient(135deg, rgba(167,139,250,0.07), rgba(59,158,255,0.05));
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .analogy-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-purple);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .analogy-title::before { content: '💡'; font-size: 14px; }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--text-dim); font-size: 18px; }
+  .flow-step.red { border-color: rgba(248,113,113,0.4); color: var(--accent-red); }
+  .flow-step.amber { border-color: rgba(245,158,11,0.4); color: var(--accent-amber); }
+  .flow-step.blue { border-color: rgba(59,158,255,0.4); color: var(--accent-blue); }
+  .flow-step.green { border-color: rgba(74,222,128,0.4); color: var(--accent-green); }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .badge-blue { background: rgba(59,158,255,0.12); color: var(--accent-blue); border: 1px solid rgba(59,158,255,0.25); }
+  .badge-red { background: rgba(248,113,113,0.12); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.25); }
+  .badge-green { background: rgba(74,222,128,0.12); color: var(--accent-green); border: 1px solid rgba(74,222,128,0.25); }
+  .badge-amber { background: rgba(245,158,11,0.12); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.25); }
+
+  /* ── TEXT UTILS ── */
+  .text-blue { color: var(--accent-blue); }
+  .text-teal { color: var(--accent-teal); }
+  .text-amber { color: var(--accent-amber); }
+  .text-red { color: var(--accent-red); }
+  .text-green { color: var(--accent-green); }
+  .text-purple { color: var(--accent-purple); }
+  .text-muted { color: var(--text-muted); }
+  strong { color: #fff; font-weight: 700; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+  /* ── QUIZ SECTION ── */
+  .quiz-block {
+    background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(59,158,255,0.04));
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .quiz-q {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-amber);
+    margin-bottom: 16px;
+  }
+  .answer-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    font-size: 14px;
+  }
+  .answer-row:last-child { border-bottom: none; }
+  .answer-key { color: var(--text-muted); min-width: 160px; font-size: 13px; }
+  .answer-val { color: var(--accent-teal); font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 15px; }
+  .answer-explain { color: var(--text-muted); font-size: 12px; }
+
+  /* ── GOLD TABLE ── */
+  .gold-row { display: flex; align-items: center; margin-bottom: 10px; gap: 14px; }
+  .gold-stage {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    min-width: 70px;
+    text-align: center;
+  }
+  .gold-bar-wrap { flex: 1; background: var(--surface2); border-radius: 4px; height: 10px; overflow: hidden; }
+  .gold-bar { height: 100%; border-radius: 4px; }
+  .gold-label { font-size: 12px; min-width: 90px; }
+
+  /* ── CIRCUIT VISUAL ── */
+  .circuit-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .circuit-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .circuit-card:hover { border-color: rgba(59,158,255,0.3); }
+  .circuit-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .circuit-card ul { list-style: none; }
+  .circuit-card ul li { font-size: 12px; color: var(--text-muted); padding: 4px 0; display: flex; gap: 8px; }
+  .circuit-card ul li::before { content: '—'; color: var(--text-dim); flex-shrink: 0; }
+  @media (max-width: 540px) { .circuit-visual { grid-template-columns: 1fr; } }
+
+  /* ── SUMMARY BOX ── */
+  .summary {
+    background: var(--surface);
+    border: 1px solid rgba(59,158,255,0.2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 48px;
+  }
+  .summary h3 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin-bottom: 16px;
+  }
+  .summary-row {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .key { color: var(--text-muted); min-width: 130px; font-weight: 500; }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 42px; height: 42px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 200;
+    font-size: 18px;
+    box-shadow: 0 4px 16px rgba(59,158,255,0.3);
+  }
+  .scroll-top.show { opacity: 1; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  /* ── TOPIC CHIP ── */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .chip {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(59,158,255,0.06); }
+
+  /* animate */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Source badge */
+  .source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">SMC 간호사 실무역량 강화 교육</div>
+  <h1>호흡기 핵심 개념 <span>완전 정복</span></h1>
+  <p>인공호흡기 · 산소요법 · 폐기능 · V/Q 불일치 — 처음 보는 사람도 이해할 수 있도록 정리</p>
+</header>
+
+<nav class="nav-bar">
+  <a class="nav-item active" href="#s1">산소요법 기초</a>
+  <a class="nav-item" href="#s2">High Flow</a>
+  <a class="nav-item" href="#s3">PEEP & FRC</a>
+  <a class="nav-item" href="#s4">V/Q 불일치</a>
+  <a class="nav-item" href="#s5">PFT 폐쇄성</a>
+  <a class="nav-item" href="#s6">PFT 제한성</a>
+  <a class="nav-item" href="#s7">수술 후 간호</a>
+  <a class="nav-item" href="#s8">Home Vent</a>
+  <a class="nav-item" href="#s9">Quiz 풀이</a>
+</nav>
+
+<div class="container">
+
+<!-- ───────────────── SECTION 1 ───────────────── -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">저유량 산소요법 — FiO₂가 흔들리는 이유</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="highlight-box hb-blue">
+    <div class="label label-blue">핵심 원리</div>
+    <p>저유량 장치(비강 캐뉼라, 단순 마스크)에서 기계가 공급하는 산소가 환자의 흡기 속도보다 <strong>적으면</strong>, 환자는 부족한 만큼 <strong>주변 공기(Room Air, 21%)</strong>를 끌어당겨 섞어 마십니다.</p>
+  </div>
+
+  <div class="analogy">
+    <div class="analogy-title">얇은 빨대 비유</div>
+    <p>환자는 30L/min 속도로 벌컥벌컥 마시고 싶은데, 비강 캐뉼라는 2L짜리 얇은 빨대만 줍니다. 모자란 28L는 코 주변 틈새로 방 안 공기를 빨아들여 채웁니다. 이 방 공기가 많이 섞일수록 <strong>실제 FiO₂는 낮아집니다.</strong></p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><div class="dot dot-green"></div>정상 호흡 시 (흡기 유속 20 L/min)</div>
+      <p class="text-muted" style="font-size:13px; margin-bottom:10px;">O₂ 1 L/min 공급 시</p>
+      <div class="formula-box">
+        순수 O₂ &nbsp;&nbsp;: 1 L (100%)
+        Room Air: 19 L (21%)
+        ────────────────────
+        <span class="text-green">FiO₂ ≈ 24~25%</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot dot-red"></div>과호흡 시 (흡기 유속 30 L/min)</div>
+      <p class="text-muted" style="font-size:13px; margin-bottom:10px;">O₂ 1 L/min 공급 시</p>
+      <div class="formula-box">
+        순수 O₂ &nbsp;&nbsp;: 1 L (100%)
+        Room Air: 29 L (21%)
+        ────────────────────
+        <span class="text-red">FiO₂ ≈ 22~23%</span>
+      </div>
+      <p class="text-muted" style="font-size:12px; margin-top:8px;">↑ 공기가 더 많이 섞여 FiO₂가 오히려 낮아짐</p>
+    </div>
+  </div>
+
+  <div class="highlight-box hb-amber">
+    <div class="label label-amber">⚠ 임상 주의</div>
+    <p>환자가 숨이 차서 헐떡거릴수록 Room Air 희석 효과가 커져 실제 산소 농도가 떨어집니다. 이때 비강 캐뉼라 2L를 그대로 유지하면 오히려 부족해질 수 있습니다.</p>
+  </div>
+
+</div>
+
+<!-- ───────────────── SECTION 2 ───────────────── -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">High Flow System — Flow 설정법</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="highlight-box hb-teal">
+    <div class="label label-teal">원칙</div>
+    <p>High flow 장치는 공급 유량이 환자의 흡기 유속을 <strong>압도(초과)</strong>하여 Room Air가 섞일 틈을 주지 않습니다. 따라서 설정한 FiO₂가 정확하게 전달됩니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>흡기 유량 추정 공식 <span class="source-badge">교재 p.29</span></div>
+    <div class="formula-box">
+흡기 유량 = (일회 호흡량 × 호흡수) ÷ 흡기시간 Fraction
+          <span class="formula-comment">※ Fraction: 모를 땐 0.3 사용</span>
+
+예시) TV 500 mL, RR 20회/min
+   = (0.5 L × 20) ÷ 0.33
+   = <span class="text-teal">≈ 30 L/min → 최소 35~40 L/min 이상 세팅</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-amber"></div>과호흡 환자 → 40 L/min 이상 필요</div>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">아래 증상 중 하나라도 있으면 흡기 유량이 크게 증가해 있다고 판단</p>
+    <div class="flow">
+      <div class="flow-step amber">RR ≥ 25~30/min</div>
+      <div class="flow-arrow">또는</div>
+      <div class="flow-step amber">보조 호흡근 사용</div>
+      <div class="flow-arrow">또는</div>
+      <div class="flow-step amber">Labored breathing</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step red">40 L/min 이상 필요</div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <div class="analogy-title">호스 비유</div>
+    <p><strong>저유량</strong>: 얇은 빨대로 5L만 주는데 30L로 마시고 싶은 환자 → 틈새 공기를 빨아들임<br>
+    <strong>고유량</strong>: 굵은 호스로 30L 이상을 폭포처럼 쏟아부어 줌 → 환자가 추가로 공기를 빨아들일 필요가 없음 → FiO₂ 정확 유지</p>
+  </div>
+
+  <div class="highlight-box hb-blue">
+    <div class="label label-blue">Washout 효과</div>
+    <p>강한 유속이 코와 인두(해부학적 사강)에 남아있던 CO₂와 외부 공기를 바깥으로 밀어냅니다. 마치 <strong>"산소 방어막"</strong>을 형성하는 것과 같습니다.</p>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 3 ───────────────── -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">PEEP과 FRC — 폐포를 열어두는 버팀목</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="highlight-box hb-blue" style="margin:0;">
+      <div class="label label-blue">FRC란?</div>
+      <p style="font-size:13px;">숨을 내쉰 후에도 폐 안에 남아있는 공기의 양. 이 공기가 폐포를 버텨주어 찌그러지지 않게 합니다.</p>
+    </div>
+    <div class="highlight-box hb-teal" style="margin:0;">
+      <div class="label label-teal">PEEP이란?</div>
+      <p style="font-size:13px;">Positive End-Expiratory Pressure. 숨을 내쉰 끝(호기 말)에도 기도에 양압을 유지해 폐포가 닫히지 않게 합니다.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;"></div>
+
+  <div class="analogy">
+    <div class="analogy-title">버팀목 비유</div>
+    <p>창고(폐포) 문이 자꾸 닫히려 할 때, 문 뒤에 버팀목(PEEP)을 세워두면 물건(산소)이 언제든 들어올 수 있도록 공간이 확보됩니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-green"></div>PEEP의 임상적 효과</div>
+    <table class="compare-table">
+      <tr>
+        <th>효과</th><th>기전</th>
+      </tr>
+      <tr>
+        <td><span class="text-green">산소화 증진</span></td>
+        <td style="color:var(--text-muted); font-size:13px;">폐포 표면적 유지 → 가스 교환 면적 확보</td>
+      </tr>
+      <tr>
+        <td><span class="text-blue">무기폐 예방</span></td>
+        <td style="color:var(--text-muted); font-size:13px;">허탈된 폐포를 다시 열고 (Recruitment) 유지</td>
+      </tr>
+      <tr>
+        <td><span class="text-teal">폐 손상 방지</span></td>
+        <td style="color:var(--text-muted); font-size:13px;">폐포 반복 개폐로 인한 Atelectrauma 예방</td>
+      </tr>
+      <tr>
+        <td><span class="text-purple">Shunt 감소</span></td>
+        <td style="color:var(--text-muted); font-size:13px;">혈류는 흐르지만 환기 없는 폐포 구제</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="highlight-box hb-red">
+    <div class="label label-red">⚠ 과도한 PEEP 주의</div>
+    <p>PEEP이 너무 높으면 흉곽 내 압력↑ → 정맥 환류(Venous return)↓ → 심박출량↓<br>
+    혈역학적 상태(혈압, HR, CVP)를 보며 조절 필요.</p>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 4 ───────────────── -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">V/Q 불일치 — 물류창고 비유</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-title"><div class="dot dot-blue"></div>기본 개념 정리</div>
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:12px; font-size:13px; text-align:center; margin-top:4px;">
+      <div style="background:var(--surface2); border-radius:8px; padding:14px;">
+        <div style="font-size:20px; margin-bottom:6px;">🏭</div>
+        <div style="font-weight:700; color:#fff; margin-bottom:4px;">폐포</div>
+        <div style="color:var(--text-muted);">물류 창고<br>교환이 일어나는 장소</div>
+      </div>
+      <div style="background:var(--surface2); border-radius:8px; padding:14px;">
+        <div style="font-size:20px; margin-bottom:6px;">📦</div>
+        <div style="font-weight:700; color:var(--accent-blue); margin-bottom:4px;">V (환기)</div>
+        <div style="color:var(--text-muted);">창고로 들어오는<br>산소(물건)</div>
+      </div>
+      <div style="background:var(--surface2); border-radius:8px; padding:14px;">
+        <div style="font-size:20px; margin-bottom:6px;">🚚</div>
+        <div style="font-weight:700; color:var(--accent-teal); margin-bottom:4px;">Q (관류)</div>
+        <div style="color:var(--text-muted);">산소를 싣고 가는<br>혈류(트럭)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card">
+      <div class="card-title"><div class="dot dot-red"></div>Shunt (V/Q = 0)</div>
+      <div class="analogy" style="margin:0 0 12px; padding:14px;">
+        <div class="analogy-title" style="font-size:11px;">🚚 트럭은 왔는데 물건이 없다!</div>
+        <p style="font-size:12px;">트럭(혈류)은 정상으로 도착했지만, 창고(폐포)가 물에 잠기거나 찌그러져서 물건(산소)이 아예 없습니다. 트럭은 빈 차로 돌아갑니다.</p>
+      </div>
+      <p style="font-size:13px; margin-bottom:8px;"><strong>결과:</strong> <span class="text-red">산소화 안 된 혈액이 그대로 동맥으로 → 심각한 저산소증</span></p>
+      <p style="font-size:12px; color:var(--text-muted);"><strong>원인:</strong> 무기폐, 폐부종, 심한 폐렴, 폐포 출혈</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot dot-amber"></div>Dead Space (High V/Q)</div>
+      <div class="analogy" style="margin:0 0 12px; padding:14px;">
+        <div class="analogy-title" style="font-size:11px;">📦 물건은 쌓였는데 트럭이 안 온다!</div>
+        <p style="font-size:12px;">창고에 물건(산소)은 가득 들어왔지만, 길(혈관)이 막혀서 트럭(혈류)이 오지 못합니다. 물건은 배달되지 못하고 창고에 방치됩니다.</p>
+      </div>
+      <p style="font-size:13px; margin-bottom:8px;"><strong>결과:</strong> <span class="text-amber">환기가 헛수고 = 사강 환기 증가</span></p>
+      <p style="font-size:12px; color:var(--text-muted);"><strong>원인:</strong> 폐색전증(PTE), 심정지 시 무관류 상태</p>
+    </div>
+  </div>
+
+  <div class="highlight-box hb-purple" style="margin-top:16px;">
+    <div class="label label-purple">임상 적용</div>
+    <p>SpO₂가 떨어졌을 때 → <strong>"물건(환기) 문제인가? 트럭(관류) 문제인가? 창고(폐포) 자체가 닫혔나?"</strong>를 먼저 구분하면 원인 접근이 빨라집니다.</p>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 5 ───────────────── -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">폐쇄성 환기 장애 — COPD & 천식</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="highlight-box hb-red">
+    <div class="label label-red">핵심 포인트</div>
+    <p>공기를 <strong>내뱉는 것</strong>에 문제가 생깁니다. 기도가 좁아져 공기가 빠져나가지 못하고 폐 안에 갇힙니다 (Air Trapping).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-red"></div>왜 FEV₁이 감소할까?</div>
+    <div class="flow" style="flex-direction:column; align-items:flex-start; gap:6px;">
+      <div class="flow-step red">기도 염증 → 기도 좁아짐</div>
+      <div class="flow-arrow" style="font-size:14px; padding-left:4px;">↓</div>
+      <div class="flow-step amber">폐포 파괴 (폐기종) → 탄성 반동 감소</div>
+      <div class="flow-arrow" style="font-size:14px; padding-left:4px;">↓</div>
+      <div class="flow-step red">공기가 내쉴 때 잘 못 빠져나옴</div>
+      <div class="flow-arrow" style="font-size:14px; padding-left:4px;">↓</div>
+      <div class="flow-step" style="border-color:rgba(248,113,113,0.5); color:var(--accent-red); font-weight:700;">1초 동안 내뱉는 양(FEV₁) 감소</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-blue"></div>COPD 진단 기준</div>
+    <div class="formula-box">
+기관지 확장제 투여 후에도
+FEV₁ / FVC &lt; 0.70 (70%)  →  COPD 진단
+    </div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">FEV₁ = 1초 동안 힘껏 내뱉는 공기량 &nbsp;|&nbsp; FVC = 힘껏 내뱉는 총 공기량</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-amber"></div>GOLD 중증도 분류</div>
+    <div style="margin-top:8px;">
+      <div class="gold-row">
+        <div class="gold-stage" style="background:rgba(74,222,128,0.12); color:var(--accent-green); border:1px solid rgba(74,222,128,0.25);">GOLD 1</div>
+        <div class="gold-bar-wrap"><div class="gold-bar" style="width:80%; background:var(--accent-green);"></div></div>
+        <div class="gold-label" style="color:var(--accent-green);">FEV₁ ≥ 80%</div>
+        <div class="badge badge-green">경증</div>
+      </div>
+      <div class="gold-row">
+        <div class="gold-stage" style="background:rgba(59,158,255,0.12); color:var(--accent-blue); border:1px solid rgba(59,158,255,0.25);">GOLD 2</div>
+        <div class="gold-bar-wrap"><div class="gold-bar" style="width:55%; background:var(--accent-blue);"></div></div>
+        <div class="gold-label" style="color:var(--accent-blue);">50~79%</div>
+        <div class="badge badge-blue">중등증</div>
+      </div>
+      <div class="gold-row">
+        <div class="gold-stage" style="background:rgba(245,158,11,0.12); color:var(--accent-amber); border:1px solid rgba(245,158,11,0.25);">GOLD 3</div>
+        <div class="gold-bar-wrap"><div class="gold-bar" style="width:35%; background:var(--accent-amber);"></div></div>
+        <div class="gold-label" style="color:var(--accent-amber);">30~49%</div>
+        <div class="badge badge-amber">중증</div>
+      </div>
+      <div class="gold-row">
+        <div class="gold-stage" style="background:rgba(248,113,113,0.12); color:var(--accent-red); border:1px solid rgba(248,113,113,0.25);">GOLD 4</div>
+        <div class="gold-bar-wrap"><div class="gold-bar" style="width:15%; background:var(--accent-red);"></div></div>
+        <div class="gold-label" style="color:var(--accent-red);">&lt; 30%</div>
+        <div class="badge badge-red">고도중증</div>
+      </div>
+    </div>
+    <p style="font-size:11px; color:var(--text-dim); margin-top:10px;">% = 예상 정상치 대비 백분율 (% Predicted)</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-purple"></div>DLCO (확산능) 특이 소견</div>
+    <table class="compare-table">
+      <tr><th>질환</th><th class="th-blue">DLCO</th><th>이유</th></tr>
+      <tr>
+        <td>COPD (폐기종)</td>
+        <td style="color:var(--accent-red);">↓ 감소</td>
+        <td style="color:var(--text-muted); font-size:12px;">폐포 파괴로 가스 교환 면적 감소</td>
+      </tr>
+      <tr>
+        <td>천식</td>
+        <td style="color:var(--accent-green);">정상 or ↑ 증가</td>
+        <td style="color:var(--text-muted); font-size:12px;">혈류 증가 및 재분배로 교환 면적↑</td>
+      </tr>
+      <tr>
+        <td>폐포 출혈</td>
+        <td style="color:var(--accent-green);">↑↑ 증가</td>
+        <td style="color:var(--text-muted); font-size:12px;">폐포 내 적혈구 Hb이 검사 가스(CO)와 결합</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 6 ───────────────── -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">제한성 환기 장애 — 폐가 충분히 펴지지 못하는 상태</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="highlight-box hb-blue">
+    <div class="label label-blue">핵심 포인트</div>
+    <p>공기를 <strong>들이마시는 것</strong>에 문제가 생깁니다. 폐 또는 폐를 둘러싼 구조물에 문제가 생겨 전체 폐 용적이 줄어듭니다.</p>
+  </div>
+
+  <div class="formula-box" style="margin:16px 0;">
+PFT 패턴:  FVC ↓,  TLC ↓,  FEV₁/FVC ≥ 0.70 (정상 혹은 증가)
+           <span class="formula-comment">※ 기도 폐쇄는 없으므로 비율은 정상</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-purple"></div>외인성 vs 내인성 제한</div>
+    <table class="compare-table">
+      <tr>
+        <th>구분</th>
+        <th class="th-blue">외인성 (외부 요인)</th>
+        <th class="th-teal">내인성 (내부 요인)</th>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">문제 위치</td>
+        <td style="font-size:13px;">폐 주변 구조물</td>
+        <td style="font-size:13px;">폐 조직 자체</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">폐 조직</td>
+        <td style="color:var(--accent-green); font-size:13px;">정상</td>
+        <td style="color:var(--accent-red); font-size:13px;">비정상 (딱딱해짐)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">대표 질환</td>
+        <td style="font-size:13px;">신경근육계 질환<br>비만, 복압 상승</td>
+        <td style="font-size:13px;">폐섬유화증(IPF)</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-blue"></div>신경근육계 질환 (ALS · GBS · MG)</div>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">폐 자체는 정상이지만 <strong>호흡근(Pump)</strong>이 약해서 흉곽이 팽창하지 못합니다.</p>
+    <div class="flow">
+      <div class="flow-step">호흡근 약화</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step amber">흉곽 팽창 제한</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step red">FVC · TLC ↓</div>
+    </div>
+    <div class="highlight-box hb-amber" style="margin-top:12px;">
+      <div class="label label-amber">추가 모니터링 지표</div>
+      <p style="font-size:13px;"><strong>MIP</strong> (최대 흡기압): 흡기근 근력 &nbsp;|&nbsp; <strong>MEP</strong> (최대 호기압): 기침 능력 직결<br>
+      누웠을 때 FVC가 앉았을 때보다 <strong>20% 이상 감소</strong> → 횡격막 약화 강력 시사</p>
+    </div>
+    <div class="highlight-box hb-red" style="margin-top:8px;">
+      <div class="label label-red">위험 신호</div>
+      <p style="font-size:13px;">FVC가 평소보다 <strong>20~30% 이상 급격히 감소</strong>하면 호흡 부전 임박 → 즉시 집중 관찰·중재 필요</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-amber"></div>비만 · 복압 상승 (Ileus, 복수)</div>
+    <div class="flow" style="flex-direction:column; align-items:flex-start; gap:6px;">
+      <div class="flow-step amber">복압 상승 (장폐색·복수·비만)</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step">횡격막 거상 → 폐 팽창 제한</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step red">FRC 감소</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step red">폐 기저부 무기폐 (Atelectasis)</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step" style="border-color:rgba(248,113,113,0.5); color:var(--accent-red); font-weight:700;">V/Q 불일치 (Shunt) → 저산소증</div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 7 ───────────────── -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">수술 후 무기폐 — 간호 중재 알고리즘</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-red"></div>왜 수술 후에 무기폐가 생길까?</div>
+    <div class="flow" style="flex-direction:column; align-items:flex-start; gap:6px;">
+      <div class="flow-step">전신마취 영향 + 통증 + 부동(Immobility)</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step amber">얕은 호흡 (Shallow breathing)</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step red">FRC 감소 → 폐포 허탈 (Atelectasis)</div>
+      <div class="flow-arrow" style="padding-left:4px;">↓</div>
+      <div class="flow-step" style="border-color:rgba(248,113,113,0.5); color:var(--accent-red);">V/Q 불일치 (Shunt) → 저산소증</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card">
+      <div class="card-title"><div class="dot dot-green"></div>1차 중재: 자발적 폐 팽창 유도</div>
+      <div class="highlight-box hb-green" style="margin:0 0 10px; padding:12px 14px;">
+        <p style="font-size:12px;"><strong>통증 조절 (Pain Control) 최우선</strong><br>
+        통증이 조절되어야 심호흡과 기침이 가능합니다. 단순한 편안함이 아니라 호흡기 합병증 예방을 위한 필수 처치!</p>
+      </div>
+      <ul style="list-style:none; font-size:13px; color:var(--text-muted);">
+        <li style="padding:6px 0; border-bottom:1px solid var(--border);">🚶 <strong style="color:#fff;">조기 이상</strong>: 중력에 의해 횡격막이 내려가 폐 용적 증가</li>
+        <li style="padding:6px 0;">💨 <strong style="color:#fff;">Incentive Spirometer</strong>: 시각적으로 확인하며 FRC 회복 훈련</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot dot-blue"></div>2차 중재: 외부 압력 지지</div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">1차 중재로 FRC 회복이 더딜 때 시행</p>
+      <div class="highlight-box hb-blue" style="margin:0; padding:12px 14px;">
+        <p style="font-size:12px;"><strong>NIV (비침습적 인공호흡기) + PEEP</strong><br>
+        마스크를 통해 양압을 전달하여 폐포가 닫히지 않도록 강제로 FRC를 확보합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box hb-teal" style="margin-top:16px;">
+    <div class="label label-teal">정상 CXR 흡기 기준</div>
+    <p>충분한 흡기 시 우측 횡격막 위로 <strong>후늑골(Posterior rib) 9~10개</strong> 확인 → 폐 팽창이 적절한지 평가하는 기준</p>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 8 ───────────────── -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Home Ventilator — Circuit과 Mode</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="analogy">
+    <div class="analogy-title">컴퓨터와 USB 비유</div>
+    <p>홈 벤틸레이터 본체는 <strong>'다재다능한 컴퓨터'</strong>와 같습니다. 어떤 USB(Circuit)를 꽂느냐에 따라 실행되는 프로그램(Mode)이 바뀌는 것처럼, 어떤 회로를 연결하느냐에 따라 기계가 제공하는 기능이 달라집니다.</p>
+  </div>
+
+  <div class="circuit-visual">
+    <div class="circuit-card">
+      <h4 class="text-blue">🔵 Passive Circuit (Leak Circuit)</h4>
+      <ul>
+        <li>선 1개 + 마스크에 구멍(Leak port)</li>
+        <li>공기가 구멍으로 계속 새어 나감</li>
+        <li>주용도: <strong style="color:#fff;">NIV (마스크)</strong></li>
+        <li>정확한 Volume 전달 불가</li>
+        <li>→ <strong style="color:var(--accent-blue);">압력 기반 모드만 활성화</strong><br><span style="padding-left:12px;">S/T, PCV, CPAP</span></li>
+        <li>CO₂는 구멍으로 Washout</li>
+        <li>Leak 알람 기준 관대</li>
+      </ul>
+    </div>
+    <div class="circuit-card">
+      <h4 class="text-teal">🟢 Active Circuit (Valve Circuit)</h4>
+      <ul>
+        <li>메인 선 + 가느다란 Valve control line</li>
+        <li>호기 밸브로 공기 누출 없음</li>
+        <li>주용도: <strong style="color:#fff;">기관절개관(Trach)</strong></li>
+        <li>정확한 Volume 계산·전달 가능</li>
+        <li>→ <strong style="color:var(--accent-teal);">용적 기반 모드 활성화</strong><br><span style="padding-left:12px;">VCV, SIMV (정밀)</span></li>
+        <li>누출 감지 시 즉시 알람</li>
+        <li>댐처럼 밸브 조절해 PEEP 생성</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box hb-amber" style="margin-top:4px;">
+    <div class="label label-amber">⚠ 결론</div>
+    <p>적절한 Circuit을 선택해야 원하는 Mode와 세밀한 설정창이 <strong>활성화</strong>됩니다. Circuit이 잘못 선택되면 원하는 모드가 아예 메뉴에 뜨지 않을 수 있습니다.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><div class="dot dot-red"></div>Home Vent FiO₂ = 측정값이 아닌 설정값!</div>
+    <table class="compare-table" style="margin-top:8px;">
+      <tr>
+        <th></th>
+        <th class="th-blue">ICU 인공호흡기</th>
+        <th class="th-amber">Home Ventilator</th>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">O₂ 센서</td>
+        <td style="color:var(--accent-green);">있음 ✓</td>
+        <td style="color:var(--accent-red);">없음 ✗</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">FiO₂ 수치</td>
+        <td style="color:var(--accent-blue);">측정값 (실시간 감시)</td>
+        <td style="color:var(--accent-amber);">설정값 (목표치)</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted); font-size:12px;">과호흡 시</td>
+        <td>알람 발생</td>
+        <td style="color:var(--accent-red);">화면 변화 없음<br>(실제 FiO₂는 하락)</td>
+      </tr>
+    </table>
+    <div class="highlight-box hb-red" style="margin-top:12px;">
+      <div class="label label-red">⚠ 핵심 간호 포인트</div>
+      <p style="font-size:13px;">Home Vent 사용 환자에서 기계 화면의 FiO₂를 맹신하지 마세요. 실제 산소 공급 상태는 반드시 <strong>SpO₂ 수치 + 호흡 양상(숨참, 청색증 등)</strong>을 직접 눈으로 평가해야 합니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────── SECTION 9 ───────────────── -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title">Quiz 1 풀이 — 가온가습 LVN 5L/30%</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-q">❓ 호흡수 증가(30회/분), 일회 호흡량 증가(500 mL) 환자에게<br>가온가습 LVN 5 L/min / 30%로 설정하여 공급하였다. 적절하게 적용되었는가?</div>
+
+    <div class="answer-row">
+      <div class="answer-key">환자의 분당 환기량</div>
+      <div class="answer-val">15 L/min</div>
+      <div class="answer-explain">= 0.5 L × 30회/min</div>
+    </div>
+    <div class="answer-row">
+      <div class="answer-key">환자의 필요 흡기 유량</div>
+      <div class="answer-val">≈ 45~50 L/min</div>
+      <div class="answer-explain">= 15 ÷ 0.33 ≈ 45 (Fraction 0.3 적용 시 50)</div>
+    </div>
+    <div class="answer-row">
+      <div class="answer-key">FiO₂ 30% → Air:O₂</div>
+      <div class="answer-val">8 : 1</div>
+      <div class="answer-explain">= (100−30) ÷ (30−21) = 70/9 ≈ 8</div>
+    </div>
+    <div class="answer-row">
+      <div class="answer-key">산소</div>
+      <div class="answer-val">5 L</div>
+      <div class="answer-explain">설정 유량 그대로</div>
+    </div>
+    <div class="answer-row">
+      <div class="answer-key">대기(Air)</div>
+      <div class="answer-val">40 L</div>
+      <div class="answer-explain">= 5 × 8배</div>
+    </div>
+    <div class="answer-row">
+      <div class="answer-key">총 기류 (Total Flow)</div>
+      <div class="answer-val">45 L/min</div>
+      <div class="answer-explain">= 5 + 40</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="highlight-box hb-amber" style="margin:0;">
+      <div class="label label-amber">평가: 경계선</div>
+      <p style="font-size:13px;">총 기류 45 L = 환자 필요 흡기 유량 45 L<br>수치상 턱걸이. 호흡이 더 가빠지면 Room Air 희석 발생 위험 ↑</p>
+    </div>
+    <div class="highlight-box hb-red" style="margin:0;">
+      <div class="label label-red">결론: 불충분할 가능성</div>
+      <p style="font-size:13px;">RR 30, 과호흡 환자는 40 L/min 이상 요구하는 경우가 많음. 유량을 올리거나 High Flow 장비 전환 고려 필요.</p>
+    </div>
+  </div>
+
+  <div class="analogy" style="margin-top:16px;">
+    <div class="analogy-title">핵심 연결고리</div>
+    <p>이 Quiz는 앞서 배운 <strong>"공급 유량 &lt; 흡기 유속 → Room Air 희석 → 실제 FiO₂ 하락"</strong> 원리가 그대로 적용되는 사례입니다. 총 기류가 환자 요구량을 초과해야 안정적인 FiO₂를 보장할 수 있습니다.</p>
+  </div>
+</div>
+
+<!-- ───────────────── SUMMARY ───────────────── -->
+<div class="summary">
+  <h3>📋 핵심 요약 — 한눈에 보기</h3>
+  <div class="summary-row">
+    <div class="key">저유량 FiO₂</div>
+    <div>환자 과호흡 → Room Air 희석 → 실제 FiO₂ 감소. 기계 설정값 ≠ 실제 전달 농도</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">High Flow 원칙</div>
+    <div>공급 유량 ≥ 환자 흡기 유속 → Room Air 섞임 없음 → 정확한 FiO₂ 전달</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">PEEP / FRC</div>
+    <div>호기 말 압력 → 폐포 버팀 → FRC 유지 → 산소화 증진 · 무기폐 예방</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">V/Q 불일치</div>
+    <div>Shunt = 트럭은 왔는데 물건 없음 (무기폐·폐부종) | Dead Space = 물건 있는데 트럭 없음 (PTE)</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">COPD 진단</div>
+    <div>기관지 확장제 후 FEV₁/FVC &lt; 0.70 → GOLD 1~4 중증도 분류</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">제한성 외인성</div>
+    <div>신경근육계 질환 · 비만 · 복압 상승 → 횡격막 거상 · 펌프 약화 → FVC/FRC 감소</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">수술 후 무기폐</div>
+    <div>통증 조절 → 심호흡 · 조기 이상 → Incentive Spirometer → 부족 시 NIV+PEEP</div>
+  </div>
+  <div class="summary-row">
+    <div class="key">Home Vent</div>
+    <div>Circuit 종류가 Mode를 결정. FiO₂는 설정값이므로 SpO₂ + 호흡 양상 직접 평가 필수</div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+  // Scroll to top button
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // Intersection observer for fade in
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.08 });
+  sections.forEach(s => observer.observe(s));
+
+  // Nav active state
+  const navItems = document.querySelectorAll('.nav-item');
+  const sectionEls = document.querySelectorAll('.section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sectionEls.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navItems.forEach(item => {
+      item.classList.toggle('active', item.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>

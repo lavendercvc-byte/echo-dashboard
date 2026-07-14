@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>항생제 Renal Dose | 일산백병원</title>
+<style>
+:root{--bg:#f1f5f9;--card:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;--accent:#0284c7;--crcl:#2563eb;--hd:#7c3aed;--std:#16a34a;--warn:#d97706}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:60px}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 14px 8px;box-shadow:0 1px 6px rgba(15,23,42,.05)}
+h1{margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+h1 .pill{background:var(--accent);color:#fff;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700}
+.meta{color:var(--muted);font-size:11px;margin-top:2px}
+.search{width:100%;margin-top:10px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:15px;outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(2,132,199,.12)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:10px 2px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:7px 13px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:12.5px;white-space:nowrap;cursor:pointer;font-weight:600}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.wrap{padding:12px 12px 0}
+.count{color:var(--muted);font-size:12px;margin:2px 4px 10px}
+.classhdr{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin:16px 4px 8px;text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:9px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+.chead{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;list-style:none}
+.chead::-webkit-details-marker{display:none}
+.chead .info{flex:1;min-width:0}
+.dname{font-weight:700;font-size:15px}
+.dsub{color:var(--warn);font-size:11.5px;margin-top:2px;font-weight:600}
+.dprod{color:var(--muted);font-size:11.5px;margin-top:3px}
+.arrow{color:var(--muted);transition:transform .2s;font-size:13px}
+details[open] .arrow{transform:rotate(90deg)}
+.cbody{border-top:1px solid var(--line);padding:6px 12px 12px}
+.rgrp-lbl{font-size:10.5px;color:var(--accent);font-weight:700;margin:8px 2px 4px;letter-spacing:.4px}
+.row{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:none}
+.tag{flex:0 0 92px;font-size:11px;font-weight:700;padding:5px 7px;border-radius:8px;text-align:center;height:fit-content;line-height:1.3;color:#fff}
+.tag.crcl{background:var(--crcl)}.tag.hd{background:var(--hd)}.tag.std{background:var(--std)}
+.dose{flex:1;font-size:13.5px;white-space:pre-line;word-break:break-word}
+.dose.nd{color:var(--muted);font-style:italic}
+.foot{color:var(--muted);font-size:11px;padding:20px 16px;text-align:center;line-height:1.6}
+.hide{display:none!important}
+.empty{text-align:center;color:var(--muted);padding:40px 20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>항생제 Renal Dose <span class="pill">MOBILE</span></h1>
+  <div class="meta">일산백병원 항생제 적정사용관리팀 · 2026.03.19 · 총 45종</div>
+  <input class="search" id="q" placeholder="Search (English): e.g. vanco, mero, cefepime" autocomplete="off">
+  <div class="chips" id="chips"><div class="chip active" data-c="전체">전체</div>
+<div class="chip" data-c="Aminopenicillin">Aminopenicillin</div>
+<div class="chip" data-c="1세대">1세대</div>
+<div class="chip" data-c="3세대">3세대</div>
+<div class="chip" data-c="4세대">4세대</div>
+<div class="chip" data-c="5세대">5세대</div>
+<div class="chip" data-c="BL/BLI">BL/BLI</div>
+<div class="chip" data-c="Carbapenems">Carbapenems</div>
+<div class="chip" data-c="Quinolones">Quinolones</div>
+<div class="chip" data-c="Aminoglycoside">Aminoglycoside</div>
+<div class="chip" data-c="Glycopeptide">Glycopeptide</div>
+<div class="chip" data-c="Oxazolidinones">Oxazolidinones</div>
+<div class="chip" data-c="Tetracycline">Tetracycline</div>
+<div class="chip" data-c="Macrolide">Macrolide</div>
+<div class="chip" data-c="Lincosamide">Lincosamide</div>
+<div class="chip" data-c="Sulfonamides">Sulfonamides</div>
+<div class="chip" data-c="Polymyxins">Polymyxins</div>
+<div class="chip" data-c="Imidazole derivative">Imidazole derivative</div>
+<div class="chip" data-c="Lipopeptide">Lipopeptide</div></div>
+</header>
+<div class="wrap">
+  <div class="count" id="count">45종 표시</div>
+  <div id="list">
+<div class="classhdr" data-cls="Aminopenicillin">Aminopenicillin</div>
+<details class="card" data-cls="Aminopenicillin" data-hay="ampicillin  penbrex 500mg aminopenicillin"><summary class="chead"><div class="info"><div class="dname">ampicillin</div><div class="dprod">💊 Penbrex 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">1-2g q4-6h</div></div><div class="row"><div class="tag crcl">CrCl 30-50</div><div class="dose">1-2g q6-8h</div></div><div class="row"><div class="tag crcl">CrCl 10-30</div><div class="dose">1-2g q8-12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1-2g q12-24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1-2g q12h
+(give one of the dialysis day doses AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">0.5-1g q12h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">1-2g q8-12h</div></div></div></div></details>
+<details class="card" data-cls="Aminopenicillin" data-hay="ampicillin/sulbactam  rukasyn 750mg aminopenicillin"><summary class="chead"><div class="info"><div class="dname">ampicillin/sulbactam</div><div class="dprod">💊 Rukasyn 750mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥30</div><div class="dose">3g q6h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">1.5-3g q12h</div></div><div class="row"><div class="tag crcl">CrCl 5-14</div><div class="dose">1.5-3g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1.5-3g q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">3g q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">1.5-3g q8-12h</div></div></div></div></details>
+<details class="card" data-cls="Aminopenicillin" data-hay="ampicillin/sulbactam prolonged infusion  aminopenicillin"><summary class="chead"><div class="info"><div class="dname">ampicillin/sulbactam</div><div class="dsub">prolonged infusion</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥30</div><div class="dose">9g (over 4hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">6g (over 4hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl 5-14</div><div class="dose">6g (over 4hr) q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">6g (over 4hr) q12h 
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">3g q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">9g (over 4hr) q8h</div></div></div></div></details>
+<details class="card" data-cls="Aminopenicillin" data-hay="amoxicillin/clavulanate  kmoxilin 1.2g aminopenicillin"><summary class="chead"><div class="info"><div class="dname">amoxicillin/clavulanate</div><div class="dprod">💊 Kmoxilin 1.2g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;30</div><div class="dose">1.2g q8h</div></div><div class="row"><div class="tag crcl">CrCl 10-30</div><div class="dose">1.2g x1, then 0.6g q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1.2g x1, then 0.6h q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1.2g x1, then 0.6h q24h
+(+extra dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">no data</div></div></div></div></details>
+<div class="classhdr" data-cls="1세대">1세대</div>
+<details class="card" data-cls="1세대" data-hay="cefazolin  cefazoline 1g 1세대"><summary class="chead"><div class="info"><div class="dname">cefazolin</div><div class="dprod">💊 Cefazoline 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">2g q8h</div></div><div class="row"><div class="tag crcl">CrCl 10-50</div><div class="dose">0.5-2g q8-12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">0.5-1g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">0.5-1g q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">0.5g q12h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">1-2g q12h</div></div></div></div></details>
+<div class="classhdr" data-cls="3세대">3세대</div>
+<details class="card" data-cls="3세대" data-hay="cefotaxime  cefotaxime 1g cefotaxime 2g 3세대"><summary class="chead"><div class="info"><div class="dname">cefotaxime</div><div class="dprod">💊 Cefotaxime 1g · Cefotaxime 2g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;90</div><div class="dose">2g q8h</div></div><div class="row"><div class="tag crcl">CrCl 50-90</div><div class="dose">2g q8-12h</div></div><div class="row"><div class="tag crcl">CrCl 10-50</div><div class="dose">2g q12-24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">2g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">2g q24h
+(+extra 1g AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">0.5-1g q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">2g q12-24h</div></div></div></div></details>
+<details class="card" data-cls="3세대" data-hay="ceftriaxone  ceftriaxone 1g triaxone 2g 3세대"><summary class="chead"><div class="info"><div class="dname">ceftriaxone</div><div class="dprod">💊 Ceftriaxone 1g · Triaxone 2g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose">2g q24h</div></div></div></div></details>
+<details class="card" data-cls="3세대" data-hay="ceftazidime  tazicef 1g 3세대"><summary class="chead"><div class="info"><div class="dname">ceftazidime</div><div class="dprod">💊 Tazicef 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">1-2g q8-12h</div></div><div class="row"><div class="tag crcl">CrCl 10-50</div><div class="dose">1-2g q12-24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1-2g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">0.5-1g q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">1-2g q8-12h</div></div></div></div></details>
+<div class="classhdr" data-cls="4세대">4세대</div>
+<details class="card" data-cls="4세대" data-hay="cefepime  maxipime 1g 4세대"><summary class="chead"><div class="info"><div class="dname">cefepime</div><div class="dprod">💊 Maxipime 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;60</div><div class="dose">2g q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-60</div><div class="dose">2g q12h</div></div><div class="row"><div class="tag crcl">CrCl 11-29</div><div class="dose">2g q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1g q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">2g q48h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">Dose per EFR*:
+1L/hr: 1g q8h
+≥2L/hr:1g q6h (주로)</div></div></div></div></details>
+<details class="card" data-cls="4세대" data-hay="cefepime prolonged infusion  4세대"><summary class="chead"><div class="info"><div class="dname">cefepime</div><div class="dsub">prolonged infusion</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">2g (over 4hr) q8h</div></div></div></div></details>
+<div class="classhdr" data-cls="5세대">5세대</div>
+<details class="card" data-cls="5세대" data-hay="cefiderocol   5세대"><summary class="chead"><div class="info"><div class="dname">Cefiderocol</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;120</div><div class="dose">2g q6h</div></div><div class="row"><div class="tag crcl">CrCl 60-119</div><div class="dose">2g q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-59</div><div class="dose">1.5g q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">1g q8h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">0.75g q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">0.75g q12h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">Dose per EFR*:
+≤2L/hr: 1.5g q12h
+2.1 to 3L/hr: 2g q12h
+3.1 to 4L/hr: 1.4g q8h
+≥4.1L/hr: 2g q8h</div></div></div></div></details>
+<div class="classhdr" data-cls="BL/BLI">BL/BLI</div>
+<details class="card" data-cls="BL/BLI" data-hay="piperacillin/tazobactam  tazolactam 2.25g tazolactam 4.5g bl/bli"><summary class="chead"><div class="info"><div class="dname">piperacillin/tazobactam</div><div class="dprod">💊 Tazolactam 2.25g · Tazolactam 4.5g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;40</div><div class="dose">3.375g q6h</div></div><div class="row"><div class="tag crcl">CrCl 20-40</div><div class="dose">2.25g q6h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">2.25g q8h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">2.25g q12h
+(+extra 0.75g AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">2.25g q12h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3.375-4.5g q6h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="piperacillin/tazobactam nosocomial pneumonia  bl/bli"><summary class="chead"><div class="info"><div class="dname">piperacillin/tazobactam</div><div class="dsub">nosocomial pneumonia</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;40</div><div class="dose">4.5g q6h</div></div><div class="row"><div class="tag crcl">CrCl 20-40</div><div class="dose">3.375g q6h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">2.25g q6h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">2.25g q8h
+(+extra 0.75g AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">2.25g q8h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3.375-4.5g q6h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="piperacillin/tazobactam prolonged infusion  bl/bli"><summary class="chead"><div class="info"><div class="dname">piperacillin/tazobactam</div><div class="dsub">prolonged infusion</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;40</div><div class="dose">4.5g (over 4hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">4.5g (over 4hr) q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">4.5g (over 4hr) q12h</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3.375-4.5g (over 4hr) q8h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="cefoperazone/sulbactam  perasul kit 1g bl/bli"><summary class="chead"><div class="info"><div class="dname">cefoperazone/sulbactam</div><div class="dprod">💊 Perasul kit 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;30</div><div class="dose">2g q12h</div></div><div class="row"><div class="tag crcl">CrCl 15-30</div><div class="dose">2g q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">1g q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1g q12h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">2g q8h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="ceftolozane/tazobactam iai/uti zerbaxa 1.5g bl/bli"><summary class="chead"><div class="info"><div class="dname">ceftolozane/tazobactam</div><div class="dsub">IAI/UTI</div><div class="dprod">💊 Zerbaxa 1.5g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">1.5g q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-50</div><div class="dose">750mg q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">375mg q8h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">750mg load, 
+then 150mg q8h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">750mg load
+then 150mg q8h (dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3g x1,
+then 750mg q8h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="ceftolozane/tazobactam hap/vap  bl/bli"><summary class="chead"><div class="info"><div class="dname">ceftolozane/tazobactam</div><div class="dsub">HAP/VAP</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">3g q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-50</div><div class="dose">1.5g q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">750mg q8h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">2.25mg load, 
+then 450mg q8h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">2.25mg load, 
+then 450mg q8h (dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3g x1,
+then 750mg q8h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="ceftolozane/tazobactam hap/vap · prolonged infusion  bl/bli"><summary class="chead"><div class="info"><div class="dname">ceftolozane/tazobactam</div><div class="dsub">HAP/VAP · prolonged infusion</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">3g (over 3hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-50</div><div class="dose">1.5g (over 3hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-29</div><div class="dose">750mg (over 3hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">2.25mg load, 
+then 450mg (over 3h) q8h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">2.25mg load, 
+then 450mg (over 3hr) q8h (dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">3g x1,
+then 750mg (over 3hr) q8h</div></div></div></div></details>
+<details class="card" data-cls="BL/BLI" data-hay="ceftazidime/avibactam  zavicefta 2/0.5g bl/bli"><summary class="chead"><div class="info"><div class="dname">ceftazidime/avibactam</div><div class="dprod">💊 Zavicefta 2/0.5g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">2.5g q8h</div></div><div class="row"><div class="tag crcl">CrCl 31-50</div><div class="dose">1.25g q8h</div></div><div class="row"><div class="tag crcl">CrCl 16-30</div><div class="dose">0.94g q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;15</div><div class="dose">CrCl &gt;15+HD: 0.94g q24h
+CrCl 6-15(±HD): 0.94g q24h
+CrCl ≤5(±HD): 0.94g q48h
+(AD on diallysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">2.5g q8h</div></div></div></div></details>
+<div class="classhdr" data-cls="Carbapenems">Carbapenems</div>
+<details class="card" data-cls="Carbapenems" data-hay="meropenem  mepemq 1g meropen 500mg carbapenems"><summary class="chead"><div class="info"><div class="dname">meropenem</div><div class="dprod">💊 Mepemq 1g · Meropen 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">1g q8h</div></div><div class="row"><div class="tag crcl">CrCl 26-50</div><div class="dose">1g q12h</div></div><div class="row"><div class="tag crcl">CrCl 10-25</div><div class="dose">0.5g q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">0.5g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">0.5g q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">0.5g q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">0.75g q8h</div></div></div></div></details>
+<details class="card" data-cls="Carbapenems" data-hay="meropenem prolonged infusion  carbapenems"><summary class="chead"><div class="info"><div class="dname">meropenem</div><div class="dsub">prolonged infusion</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">2g (over 3hr) q8h</div></div><div class="row"><div class="tag crcl">CrCl 26-50</div><div class="dose">2g (over 3hr) q12h</div></div><div class="row"><div class="tag crcl">CrCl 10-25</div><div class="dose">1g (over 3hr)q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1g (over 3hr) q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1g (over 3hr) q24h
+(AD on dialysis days)</div></div></div></div></details>
+<details class="card" data-cls="Carbapenems" data-hay="imipenem/cilastatin  prepenem 500mg carbapenems"><summary class="chead"><div class="info"><div class="dname">imipenem/cilastatin</div><div class="dprod">💊 Prepenem 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp-lbl">▸ 처방 1안</div><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;90</div><div class="dose">500mg q6h</div></div><div class="row"><div class="tag crcl">CrCl 60-90</div><div class="dose">400mg q6h</div></div><div class="row"><div class="tag crcl">CrCl 30-60</div><div class="dose">300mg q6h</div></div><div class="row"><div class="tag crcl">CrCl 15-30</div><div class="dose">200mg q6h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">200mg q6h
+(dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">0.5-1g q6h</div></div></div><div class="rgrp-lbl">▸ 처방 2안</div><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;90</div><div class="dose">1g q8h</div></div><div class="row"><div class="tag crcl">CrCl 60-90</div><div class="dose">500mg q6h</div></div><div class="row"><div class="tag crcl">CrCl 30-60</div><div class="dose">500mg q8h</div></div><div class="row"><div class="tag crcl">CrCl 15-30</div><div class="dose">500mg q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">500mg q12h
+(dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">0.5-1g q12h</div></div></div><div class="rgrp-lbl">▸ 처방 3안</div><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;90</div><div class="dose">1g q6h</div></div><div class="row"><div class="tag crcl">CrCl 60-90</div><div class="dose">750mg q8h</div></div><div class="row"><div class="tag crcl">CrCl 30-60</div><div class="dose">500mg q6h</div></div><div class="row"><div class="tag crcl">CrCl 15-30</div><div class="dose">500mg q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">500mg q12h
+(dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">0.5-1g q12h</div></div></div></div></details>
+<details class="card" data-cls="Carbapenems" data-hay="ertapenem  invanz 1g carbapenems"><summary class="chead"><div class="info"><div class="dname">ertapenem</div><div class="dprod">💊 Invanz 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;30</div><div class="dose">1g q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;30</div><div class="dose">0.5g q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">0.5g q24h
+(+0.15g AD if given&lt;6hr bef HD)
+OR
+0.5g 3x/wk AD</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">0.5g q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">0.5-1g q24</div></div></div></div></details>
+<div class="classhdr" data-cls="Quinolones">Quinolones</div>
+<details class="card" data-cls="Quinolones" data-hay="levofloxacin  cravit 500mg cravit 750mg quinolones"><summary class="chead"><div class="info"><div class="dname">levofloxacin</div><div class="dprod">💊 Cravit 500mg · Cravit 750mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">750mg q24h</div></div><div class="row"><div class="tag crcl">CrCl 20-49</div><div class="dose">750mg q48h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">750mg x1, 
+then 500mg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">750mg x1, 
+then 500mg q48h</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">750mg x1, 
+then 500mg q48h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">750mg x1, 
+then 500mg q48h</div></div></div></div></details>
+<details class="card" data-cls="Quinolones" data-hay="ciprofloxacin  cycin 200mg cycin 400mg quinolones"><summary class="chead"><div class="info"><div class="dname">ciprofloxacin</div><div class="dprod">💊 Cycin 200mg · Cycin 400mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;30</div><div class="dose">400mg q12h</div></div><div class="row"><div class="tag crcl">CrCl ≤30</div><div class="dose">400mg q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">400mg q24h
+(AD on dialysis days)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">400mg q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">400mg q12h</div></div></div></div></details>
+<details class="card" data-cls="Quinolones" data-hay="moxifloxacin  avelox 400mg quinolones"><summary class="chead"><div class="info"><div class="dname">moxifloxacin</div><div class="dprod">💊 Avelox 400mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose">400mg q24h</div></div></div></div></details>
+<div class="classhdr" data-cls="Aminoglycoside">Aminoglycoside</div>
+<details class="card" data-cls="Aminoglycoside" data-hay="amikacin conventional amikacin 250mg amikacin 500mg aminoglycoside"><summary class="chead"><div class="info"><div class="dname">amikacin</div><div class="dsub">conventional</div><div class="dprod">💊 Amikacin 250mg · Amikacin 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">7.5mg/kg q12h</div></div><div class="row"><div class="tag crcl">CrCl 10-50</div><div class="dose">7.5mg/kg q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">7.5mg/kg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">7.5mg/kg q48h
+(+extra 3.75mg/kg AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">for peritonitis only
+2mg/kg IP once daily</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="amikacin extended-interval  aminoglycoside"><summary class="chead"><div class="info"><div class="dname">amikacin</div><div class="dsub">extended-interval</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;60</div><div class="dose">15-20mg/kg q24h</div></div><div class="row"><div class="tag crcl">CrCl 40-59</div><div class="dose">15-20mg/kg q36h</div></div><div class="row"><div class="tag crcl">CrCl 20-39</div><div class="dose">15-20mg/kg q48h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">25mg/kg q48h</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="gentamicin conventional gentamicin 80mg aminoglycoside"><summary class="chead"><div class="info"><div class="dname">gentamicin</div><div class="dsub">conventional</div><div class="dprod">💊 Gentamicin 80mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">2mg/kg load,
+then 1.7-2mg/kg q8h</div></div><div class="row"><div class="tag crcl">CrCl 10-50</div><div class="dose">1.7-2.0mg/kg q12-24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">1.7-2.0mg/kg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1.7-2.0mg/kg q48h
+(+extra 0.85-1.0mg/kg AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">for peritonitis only
+0.6mg/kg IP once daily</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">1.7-2.0mg/kg q24h</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="gentamicin extented interval  aminoglycoside"><summary class="chead"><div class="info"><div class="dname">gentamicin</div><div class="dsub">extented interval</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;50</div><div class="dose">7mg/kg q24h</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="gentamicin g+ synergy  aminoglycoside"><summary class="chead"><div class="info"><div class="dname">gentamicin</div><div class="dsub">G+ synergy</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥60</div><div class="dose">1mg/kg q8h</div></div><div class="row"><div class="tag crcl">CrCl 40-59</div><div class="dose">1mg/kg q12h</div></div><div class="row"><div class="tag crcl">CrCl 20-39</div><div class="dose">1mg/kg q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">1mg/kg,
+then dose by level</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">1mg/kg q48-72h
+(dose AD)</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="tobramycin  tobra 80mg aminoglycoside"><summary class="chead"><div class="info"><div class="dname">tobramycin</div><div class="dprod">💊 Tobra 80mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose nd">자료 없음</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="kanamycin  kanamycin 1g aminoglycoside"><summary class="chead"><div class="info"><div class="dname">kanamycin</div><div class="dprod">💊 Kanamycin 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose nd">자료 없음</div></div></div></div></details>
+<details class="card" data-cls="Aminoglycoside" data-hay="streptomycin  streptomycin 1g (prn) aminoglycoside"><summary class="chead"><div class="info"><div class="dname">streptomycin</div><div class="dprod">💊 Streptomycin 1g · (PRN)</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose nd">자료 없음</div></div></div></div></details>
+<div class="classhdr" data-cls="Glycopeptide">Glycopeptide</div>
+<details class="card" data-cls="Glycopeptide" data-hay="teicoplanin non-complicated mrsa inf · (target 15-30ug/ml) tapocin 400mg teiconin 400mg glycopeptide"><summary class="chead"><div class="info"><div class="dname">teicoplanin</div><div class="dsub">non-complicated MRSA Inf · (target 15-30ug/mL)</div><div class="dprod">💊 Tapocin 400mg · Teiconin 400mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">eGFR &gt;60</div><div class="dose">12mg/kg q12h on day 1,
+then 12mg/kg x 1 on days 2 and 3,
+then 6.0-6.7mg/kg q24hr</div></div><div class="row"><div class="tag crcl">eGFR 30-60</div><div class="dose">D1: 12mg/kg q12h,
+D2: 10mg/kg x 1,
+D3: 6-6.7mg/kg x 1,
+then 3-3.3mg/kg q24h</div></div><div class="row"><div class="tag crcl">eGFR &lt;30</div><div class="dose">D1: 12mg/kg q12h,
+D2: 5mg/kg x 1,
+D3: 5mg/kg x 1,
+then 5mg/kg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">not removed by HD
+(use recs for eGFR &lt;30)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">D1: 10mg/kg q12h,
+D2: 10mg/kg x 1,
+D3: 10mg/kg x 1,
+then 3-3.3mg/kg q24h</div></div></div></div></details>
+<details class="card" data-cls="Glycopeptide" data-hay="teicoplanin complicated mrsa inf · (target 20-40ug/ml)  glycopeptide"><summary class="chead"><div class="info"><div class="dname">teicoplanin</div><div class="dsub">complicated MRSA Inf · (target 20-40ug/mL)</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">eGFR &gt;60</div><div class="dose">12mg/kg q12h on day 1 and 2,
+then 12mg/kg x 1 on day 3,
+then 6.0-6.7mg/kg q24hr</div></div><div class="row"><div class="tag crcl">eGFR 30-60</div><div class="dose">D1: 12mg/kg q12h,
+D2: 12mg/kg x 1,
+D3: 12mg/kg x 1,
+then 5mg/kg q24h</div></div><div class="row"><div class="tag crcl">eGFR &lt;30</div><div class="dose">D1: 12mg/kg q12h,
+D2: 12mg/kg x 1,
+D3: 6-6.7mg/kg x 1,
+then 3-3.33mg/kg q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">not removed by HD
+(use recs for eGFR &lt;30)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">D1: 12mg/kg q12h,
+D2: 12mg/kg x 1,
+D3: 12mg/kg x 1,
+then 3-3.3mg/kg q24h</div></div></div></div></details>
+<details class="card" data-cls="Glycopeptide" data-hay="vancomycin  hanomycin 500mg vancocin cp 1g glycopeptide"><summary class="chead"><div class="info"><div class="dname">vancomycin</div><div class="dprod">💊 Hanomycin 500mg · Vancocin CP 1g</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;100</div><div class="dose">20-30mg/kg (max 3g),
+then 15-20mg/kg q8h</div></div><div class="row"><div class="tag crcl">CrCl 50-100</div><div class="dose">20-30mg/kg (max 3g),
+then 15-20mg/kg 12h</div></div><div class="row"><div class="tag crcl">CrCl 20-50</div><div class="dose">20-30mg/kg (max 3g),
+then 15-20mg/kg q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;20</div><div class="dose">20-30mg/kg (max 3g),
+then 15-20mg/kg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">Post-HD dosing
+Low permeability: 25mg/kg, then 7.5mg/kg AD
+High permeability: 25mg/kg, then  10mg/kg AD</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">7.5mg/kg q48-96h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">20-25mg/kg,
+then 7.5-10mg/kg q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">Intradialytic dosing
+Low permeability: 30mg/kg, then 7.5-10mg/kg
+High permeability: 30mg/kg, then 10-15mg/kg</div></div></div></div></details>
+<div class="classhdr" data-cls="Oxazolidinones">Oxazolidinones</div>
+<details class="card" data-cls="Oxazolidinones" data-hay="linezolid  zyvox 600mg oxazolidinones"><summary class="chead"><div class="info"><div class="dname">linezolid</div><div class="dprod">💊 Zyvox 600mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">eGFR &gt;60</div><div class="dose">600mg q12h</div></div><div class="row"><div class="tag crcl">eGFR &lt;60</div><div class="dose">no dosage adjustment (product labeling)
+debated: 300mg q12h for eGFR&lt;60</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">600mg q12h
+(dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">600mg q12h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">600mg q12h</div></div></div></div></details>
+<div class="classhdr" data-cls="Tetracycline">Tetracycline</div>
+<details class="card" data-cls="Tetracycline" data-hay="tigecycline  tygacil 50mg tetracycline"><summary class="chead"><div class="info"><div class="dname">tigecycline</div><div class="dprod">💊 Tygacil 50mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose">100mg, then 50mg q12h (resistant gram-negative infection: 200mg, then 100mg q12h)</div></div></div></div></details>
+<div class="classhdr" data-cls="Macrolide">Macrolide</div>
+<details class="card" data-cls="Macrolide" data-hay="azithromycin  zithromax 500mg macrolide"><summary class="chead"><div class="info"><div class="dname">azithromycin</div><div class="dprod">💊 Zithromax 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose">250-500mg q24h</div></div></div></div></details>
+<div class="classhdr" data-cls="Lincosamide">Lincosamide</div>
+<details class="card" data-cls="Lincosamide" data-hay="clindamycin  fullgram 300mg lincosamide"><summary class="chead"><div class="info"><div class="dname">clindamycin</div><div class="dprod">💊 Fullgram 300mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag std">표준 용량</div><div class="dose">900mg q8h</div></div></div></div></details>
+<div class="classhdr" data-cls="Sulfonamides">Sulfonamides</div>
+<details class="card" data-cls="Sulfonamides" data-hay="trimethoprim sulfamethoxazole bactrim 400/80mg cotrim 400/80mg sulfonamides"><summary class="chead"><div class="info"><div class="dname">trimethoprim</div><div class="dsub">sulfamethoxazole</div><div class="dprod">💊 Bactrim 400/80mg · Cotrim 400/80mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥90</div><div class="dose">10-20mg/kg
+divided q6-12h</div></div><div class="row"><div class="tag crcl">CrCl 10-29</div><div class="dose">5-10mg/kg
+divided q12h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">non recommend
+if used: 5-10mg/kg q24h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">not recommended
+if used: 5-10mg/kg q24h, AD on dialysis day</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">not recommended
+if used: 5-10mg/kg q24h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">5mg/kg q8h</div></div></div></div></details>
+<div class="classhdr" data-cls="Polymyxins">Polymyxins</div>
+<details class="card" data-cls="Polymyxins" data-hay="colistin  colistimethate 150mg polymyxins"><summary class="chead"><div class="info"><div class="dname">colistin</div><div class="dprod">💊 Colistimethate 150mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl &gt;90</div><div class="dose">Load 4mg/kg, 
+then CrCl ≥90: 180mg q12h
+       CrCl 80-90: 170mg q12h
+       CrCl 70-80: 150mg q12h
+       CrCl 60-70: 137.5mg q12h
+       CrCl 50-60: 122.5mg q12h
+       CrCl 40-50: 110mg q12h
+       CrCl 30-40: 97.5mg q12h
+       CrCl 20-30: 87.5mg q12h
+       CrCl 10-20: 80mg q12h
+       CrCl 5-10: 72.5mg q12h
+       CrCl &lt;5: 65mg q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">On non-HD days: give 65mg q12h
+On HD days: give supplemental dose of 40-50mg after a 3-4hr session. Give this supplement with the next regular dose after the dialysis has ended.</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">no data</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">220mg q12h</div></div></div></div></details>
+<div class="classhdr" data-cls="Imidazole derivative">Imidazole derivative</div>
+<details class="card" data-cls="Imidazole derivative" data-hay="metronidazole  furanisol 500mg imidazole derivative"><summary class="chead"><div class="info"><div class="dname">metronidazole</div><div class="dprod">💊 Furanisol 500mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥10</div><div class="dose">500mg q6h</div></div><div class="row"><div class="tag crcl">CrCl &lt;10</div><div class="dose">500mg q12h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">500mg q12h
+(dose AD)</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">500mg q6h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">500mg q6h</div></div></div></div></details>
+<div class="classhdr" data-cls="Lipopeptide">Lipopeptide</div>
+<details class="card" data-cls="Lipopeptide" data-hay="daptomycin for ssti dapto 350mg, sagent daptomycin 350mg lipopeptide"><summary class="chead"><div class="info"><div class="dname">daptomycin</div><div class="dsub">for SSTI</div><div class="dprod">💊 Dapto 350mg, Sagent Daptomycin 350mg</div></div><div class="arrow">▶</div></summary><div class="cbody"><div class="rgrp"><div class="row"><div class="tag crcl">CrCl ≥30</div><div class="dose">6-10mg/kg q24h</div></div><div class="row"><div class="tag crcl">CrCl &lt;30</div><div class="dose">6-10mg/kg q48h</div></div><div class="row"><div class="tag hd">HD</div><div class="dose">6-10mg/kg q48h (AD), if planned next dialysis is 72hr away, give 9-15mg/kg</div></div><div class="row"><div class="tag hd">CAPD</div><div class="dose">6-10mg/kg q48h</div></div><div class="row"><div class="tag hd">CRRT</div><div class="dose">6-8mg/kg q24h</div></div></div></div></details>
+  </div>
+  <div class="empty hide" id="empty">검색 결과가 없습니다.</div>
+</div>
+<div class="foot">
+  * EFR = DFR(1000) + Post(500) + Pt removal(60) + PBP(500) = 2060 mL/hr<br>
+  본 자료는 참고용이며, 실제 처방은 환자 상태·약물농도·최신 지침에 따라 판단하십시오.
+</div>
+<script>
+(function(){
+  var q=document.getElementById('q'),chips=document.getElementById('chips'),
+      cards=[].slice.call(document.querySelectorAll('.card')),
+      heads=[].slice.call(document.querySelectorAll('.classhdr')),
+      count=document.getElementById('count'),empty=document.getElementById('empty'),
+      curC='전체',curQ='';
+  function apply(){
+    var n=0;
+    cards.forEach(function(c){
+      var ok=(curC==='전체'||c.getAttribute('data-cls')===curC)&&(!curQ||c.getAttribute('data-hay').indexOf(curQ)>-1);
+      c.classList.toggle('hide',!ok); if(ok)n++;
+    });
+    heads.forEach(function(h){
+      var cls=h.getAttribute('data-cls'),vis=false,el=h.nextElementSibling;
+      while(el&&!el.classList.contains('classhdr')){ if(el.classList.contains('card')&&!el.classList.contains('hide')){vis=true;break;} el=el.nextElementSibling; }
+      h.classList.toggle('hide',!vis);
+    });
+    count.textContent=n+'종 표시';
+    empty.classList.toggle('hide',n>0);
+  }
+  q.addEventListener('input',function(e){curQ=e.target.value.trim().toLowerCase();apply();});
+  chips.addEventListener('click',function(e){
+    var t=e.target.closest('.chip'); if(!t)return;
+    [].forEach.call(chips.children,function(x){x.classList.remove('active');});
+    t.classList.add('active'); curC=t.getAttribute('data-c'); apply();
+  });
+})();
+</script>
+</body>
+</html>

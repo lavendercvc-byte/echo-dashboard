@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulmonary Hypertension 임상 참고 대시보드</title>
+<style>
+  :root{
+    --navy:#0b3d5c;
+    --blue:#1470a8;
+    --teal:#0e8f8f;
+    --lightblue:#eaf4fa;
+    --bg:#f4f7f9;
+    --card:#ffffff;
+    --border:#dde5ea;
+    --text:#1c2b34;
+    --muted:#5b6b76;
+    --green:#2e9e5b;
+    --yellow:#d69a1f;
+    --orange:#e07b1f;
+    --red:#c0392b;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff;
+    padding:28px 32px 22px;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size:24px;
+    letter-spacing:-0.3px;
+  }
+  header p{
+    margin:0;
+    font-size:13.5px;
+    color:#cfe6f5;
+  }
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:20px 20px 60px;
+  }
+  nav.tabs{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin:18px 0 22px;
+    border-bottom:2px solid var(--border);
+    padding-bottom:0;
+  }
+  nav.tabs a{
+    appearance:none;
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    font-size:14.5px;
+    font-weight:600;
+    padding:10px 16px;
+    cursor:pointer;
+    border-radius:8px 8px 0 0;
+    position:relative;
+    transition:all .15s ease;
+    text-decoration:none;
+  }
+  nav.tabs a:hover{ background:var(--lightblue); color:var(--navy); }
+  nav.tabs a.active{
+    color:var(--navy);
+    background:var(--lightblue);
+  }
+  nav.tabs a.active::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:-2px;
+    height:3px;
+    background:var(--teal);
+    border-radius:2px;
+  }
+  section.panel{ display:block; margin-bottom:40px; padding-top:8px; border-top:2px dashed var(--border); }
+  section.panel:first-of-type{ border-top:none; padding-top:0; }
+  section.panel.active{ display:block; }
+
+  .grid{ display:grid; gap:16px; }
+  .grid.cols-2{ grid-template-columns:1fr 1fr; }
+  .grid.cols-3{ grid-template-columns:repeat(3,1fr); }
+  .grid.cols-5{ grid-template-columns:repeat(5,1fr); }
+  @media(max-width:900px){
+    .grid.cols-2, .grid.cols-3, .grid.cols-5{ grid-template-columns:1fr; }
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    box-shadow:0 1px 2px rgba(20,50,70,0.04);
+  }
+  .card h3{
+    margin:0 0 10px;
+    font-size:16px;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h3 .tag{
+    font-size:11px;
+    background:var(--lightblue);
+    color:var(--blue);
+    padding:2px 8px;
+    border-radius:20px;
+    font-weight:700;
+  }
+  .card p, .card li{ font-size:13.5px; color:var(--text); }
+  .card ul{ margin:6px 0; padding-left:18px; }
+  .muted{ color:var(--muted); font-size:12.5px; }
+
+  .hero-stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    text-align:center;
+  }
+  .hero-stat .num{ font-size:26px; font-weight:800; color:var(--teal); }
+  .hero-stat .label{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  th,td{ text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ background:var(--lightblue); color:var(--navy); font-weight:700; }
+  tr:last-child td{ border-bottom:none; }
+
+  .badge{
+    display:inline-block;
+    padding:2px 9px;
+    border-radius:20px;
+    font-size:11.5px;
+    font-weight:700;
+    color:#fff;
+  }
+  .badge.g1{ background:#c0392b; }
+  .badge.g2{ background:#1470a8; }
+  .badge.g3{ background:#d69a1f; }
+  .badge.g4{ background:#7d3fc0; }
+  .badge.g5{ background:#5b6b76; }
+
+  .risk-low{ color:var(--green); font-weight:700; }
+  .risk-mid{ color:var(--yellow); font-weight:700; }
+  .risk-high{ color:var(--red); font-weight:700; }
+
+  .flow{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .flow-step{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 18px;
+  }
+  .flow-step .step-num{
+    flex:0 0 auto;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--teal);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800;
+    font-size:13px;
+  }
+  .flow-step .step-body h4{ margin:0 0 4px; font-size:14.5px; color:var(--navy); }
+  .flow-step .step-body p{ margin:0; font-size:13px; color:var(--muted); }
+  .flow-arrow{ text-align:center; color:var(--muted); font-size:13px; margin:-4px 0; }
+
+  .pill-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .pill{
+    background:var(--lightblue);
+    color:var(--navy);
+    font-size:12px;
+    font-weight:600;
+    padding:4px 11px;
+    border-radius:20px;
+  }
+
+  .callout{
+    border-left:4px solid var(--teal);
+    background:#f0fbfa;
+    padding:12px 16px;
+    border-radius:0 8px 8px 0;
+    font-size:13.5px;
+    margin-top:10px;
+  }
+  .callout.warn{ border-left-color:var(--orange); background:#fff7ec; }
+
+  .drugclass-card{
+    border-left:5px solid var(--teal);
+  }
+  .drugclass-card.era{ border-left-color:#1470a8; }
+  .drugclass-card.pde5{ border-left-color:#2e9e5b; }
+  .drugclass-card.prosta{ border-left-color:#c0392b; }
+  .drugclass-card.sgc{ border-left-color:#7d3fc0; }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:20px;
+  }
+
+  /* Risk stratification interactive calc */
+  .calc-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed var(--border); font-size:13.5px; }
+  .calc-row:last-child{ border-bottom:none; }
+  select, input[type=number]{
+    font-size:13px;
+    padding:5px 8px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:#fff;
+    color:var(--text);
+  }
+  #riskResult{
+    margin-top:14px;
+    padding:14px 18px;
+    border-radius:var(--radius);
+    font-weight:700;
+    font-size:15px;
+    text-align:center;
+  }
+
+  /* Pathway schematic (pre- vs post-capillary) */
+  .pathway{ display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin-top:12px; }
+  .pathway .node{
+    background:var(--lightblue); border:1px solid var(--border); border-radius:8px;
+    padding:8px 10px; text-align:center; min-width:64px; color:var(--navy); font-weight:600; font-size:12px;
+  }
+  .pathway .node.problem{ background:#fdecea; border-color:var(--red); color:var(--red); }
+  .pathway .arrow{ color:var(--muted); font-size:15px; padding:0 2px; }
+  .pathway .gauge{
+    background:#fff; border:3px solid var(--teal); border-radius:50%;
+    width:60px; height:60px; flex:0 0 auto;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-weight:800; font-size:12.5px; color:var(--navy);
+  }
+  .pathway .gauge .g-label{ font-size:8.5px; font-weight:600; color:var(--muted); }
+  .pathway-row-label{ font-weight:700; color:var(--navy); font-size:13px; margin-top:16px; margin-bottom:2px; }
+  .wave-canvas{ width:100%; height:auto; display:block; background:#fbfdfe; border-radius:8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pulmonary Hypertension (폐동맥고혈압) 임상 참고 대시보드</h1>
+  <p>2022 ESC/ERS 가이드라인 · 2024 제7차 세계 폐고혈압 심포지엄(WSPH) 개정 내용 기준 · 임상 참고용 요약 (실제 진료 결정은 최신 원문 가이드라인 및 전문의 판단에 따를 것)</p>
+</header>
+
+<div class="container">
+
+  <nav class="tabs" id="tabs">
+    <a href="#overview" class="active">개요 · 정의</a>
+    <a href="#classification">분류 (WHO Group 1–5)</a>
+    <a href="#diagnosis">진단 알고리즘</a>
+    <a href="#risk">위험도 평가</a>
+    <a href="#treatment">치료</a>
+    <a href="#icu">중증 관리 (ICU)</a>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section class="panel active" id="overview">
+    <div class="grid cols-3" style="margin-bottom:16px;">
+      <div class="hero-stat"><div class="num">&gt;20 mmHg</div><div class="label">안정 시 평균 폐동맥압(mPAP) 기준 (2022년 하향 개정, 기존 ≥25)</div></div>
+      <div class="hero-stat"><div class="num">PVR &gt;2 WU</div><div class="label">PAH(모세혈관전 PH) 정의에 포함되는 폐혈관저항 기준</div></div>
+      <div class="hero-stat"><div class="num">≥15 mmHg</div><div class="label">모세혈관전 PH의 폐동맥 쐐기압(PAWP) 기준 (좌심 원인 배제)</div></div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>혈역학적 정의 <span class="tag">Definition</span></h3>
+        <table>
+          <tr><th>분류</th><th>mPAP</th><th>PAWP</th><th>PVR</th></tr>
+          <tr><td>폐고혈압(PH)</td><td>&gt;20 mmHg</td><td>-</td><td>-</td></tr>
+          <tr><td>모세혈관전 PH<br><span class="muted">(Pre-capillary, Group1/3/4/5 양상)</span></td><td>&gt;20 mmHg</td><td>≤15 mmHg</td><td>&gt;2 WU</td></tr>
+          <tr><td>모세혈관후 PH<br><span class="muted">(Post-capillary, Group2 양상)</span></td><td>&gt;20 mmHg</td><td>&gt;15 mmHg</td><td>-</td></tr>
+          <tr><td>복합형 PH<br><span class="muted">(Combined pre+post-capillary)</span></td><td>&gt;20 mmHg</td><td>&gt;15 mmHg</td><td>&gt;2 WU</td></tr>
+          <tr><td>운동유발 PH<br><span class="muted">(Exercise PH)</span></td><td colspan="3">mPAP/CO slope &gt; 3 mmHg/L/min (운동 중)</td></tr>
+        </table>
+        <p class="muted">출처: 2022 ESC/ERS Guidelines (Eur Heart J 2022;43:3618)</p>
+      </div>
+
+      <div class="card">
+        <h3>핵심 요약 <span class="tag">Key Points</span></h3>
+        <ul>
+          <li>2022년 가이드라인에서 mPAP 진단 기준이 25→20 mmHg로 낮아지며 조기 진단 및 위험군 포착이 강화됨.</li>
+          <li>IPAH(특발성 PAH) 중 혈관반응성 양성 환자는 별도 하위군으로 재분류됨.</li>
+          <li>Group 5의 림프관평활근종증(LAM)은 Group 3로 재배치됨.</li>
+          <li>진단은 &quot;의심 → 심초음파 선별 → PH 전문센터 확진&quot;의 3단계 접근을 따름.</li>
+          <li>치료는 위험도(저/중/고)에 따라 초기부터 병용요법을 적극 고려하는 방향으로 전환됨 (2024 WSPH).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>일반 증상 및 신체 소견</h3>
+      <div class="grid cols-2">
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">증상</p>
+          <ul>
+            <li>운동 시 호흡곤란 (가장 흔함, 초기 비특이적)</li>
+            <li>피로, 무기력</li>
+            <li>실신 또는 실신 전 증상 (운동 시 심박출량 제한 시사)</li>
+            <li>흉통, 두근거림</li>
+            <li>진행 시 하지 부종, 복부 팽만(우심부전 징후)</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">신체 진찰 소견</p>
+          <ul>
+            <li>제2심음 폐동맥 성분 항진 (loud P2)</li>
+            <li>삼첨판 역류 잡음, 우심실 박동 촉지</li>
+            <li>경정맥압 상승, 간비대, 복수, 말초부종</li>
+            <li>청색증 (중증/말기)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLASSIFICATION -->
+  <section class="panel" id="classification">
+    <div class="card" style="margin-bottom:16px;">
+      <h3>WHO/ESC-ERS 임상 분류 5군</h3>
+      <p class="muted">기저 원인 및 병태생리 기전에 따라 5개 군으로 분류하며, 각 군마다 진단적 접근과 치료 전략이 크게 다름.</p>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3><span class="badge g1">Group 1</span> 폐동맥고혈압 (PAH)</h3>
+        <p>폐소동맥 자체의 리모델링·내막증식으로 폐혈관저항이 증가하는 질환군. 표적치료제가 가장 잘 확립되어 있음.</p>
+        <ul>
+          <li>특발성 PAH (IPAH) — 혈관반응성 양성/음성 하위분류</li>
+          <li>유전성 PAH (BMPR2 등)</li>
+          <li>약물/독소 유발성 PAH</li>
+          <li>결합조직질환 관련 PAH (전신경화증 등)</li>
+          <li>선천성 심질환 관련 PAH</li>
+          <li>문맥폐고혈압, HIV 관련 PAH</li>
+          <li>신생아 지속성 폐고혈압</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge g2">Group 2</span> 좌심질환 관련 PH</h3>
+        <p>좌심 기능/구조 이상으로 폐정맥압이 상승하는 모세혈관후 PH. 가장 흔한 PH 원인.</p>
+        <ul>
+          <li>박출률 보존/감소 심부전 (HFpEF/HFrEF)</li>
+          <li>판막질환 (승모판, 대동맥판)</li>
+          <li>선천성/후천성 좌심유입로·유출로 폐쇄</li>
+        </ul>
+        <div class="callout">치료의 핵심은 기저 좌심질환 관리이며, PAH 표적치료제는 일반적으로 권장되지 않음.</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge g3">Group 3</span> 폐질환/저산소증 관련 PH</h3>
+        <p>만성 저산소혈증 및 폐실질 파괴로 인한 저산소성 혈관수축과 리모델링.</p>
+        <ul>
+          <li>COPD, 간질성 폐질환, 복합형 폐기종-섬유화</li>
+          <li>수면무호흡 등 수면 관련 저환기 질환</li>
+          <li>고지대 장기 거주</li>
+          <li>폐발달 이상 (림프관평활근종증 포함, 2022 재분류)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge g4">Group 4</span> 만성혈전색전성 PH (CTEPH)</h3>
+        <p>폐동맥 내 미용해 혈전과 섬유화 협착으로 발생. <strong>유일하게 수술적 완치 가능</strong>한 PH.</p>
+        <ul>
+          <li>1차 치료: 폐동맥내막절제술(PEA)</li>
+          <li>수술 불가/잔존 PH: 풍선폐동맥성형술(BPA) 또는 riociguat</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3><span class="badge g5">Group 5</span> 기전 불명확 또는 다인성 PH</h3>
+      <div class="grid cols-2">
+        <ul>
+          <li>혈액질환: 골수증식성 질환, 만성용혈성빈혈, 비장절제술 후</li>
+          <li>전신질환: 사르코이드증, 랑게르한스세포조직구증, 신경섬유종증, 혈관염</li>
+        </ul>
+        <ul>
+          <li>대사질환: 당원병, 고셔병, 갑상선질환</li>
+          <li>기타: 종양에 의한 폐혈관 폐쇄, 종격동섬유증, 만성신부전(투석 중)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>아이젠멩거 증후군 — VSD가 Group 1 PAH로 진행하는 과정 <span class="tag">CHD-PAH 예시</span></h3>
+      <p class="muted">선천성 심질환 관련 PAH(Group 1)의 대표 사례로, 큰 좌→우 단락이 폐혈관 자체를 병들게 하여 결국 단락이 뒤집히는 과정을 보여줍니다.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>좌→우 단락 발생 (초기)</h4>
+            <p>좌심실(고압) → 우심실(저압)로 VSD를 통해 혈액이 새어나가 폐로 과혈류(Qp:Qs &gt;1). 결손이 크면 좌심실의 높은 압력이 폐동맥에도 거의 그대로 전달됨.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>폐소동맥의 만성 손상</h4>
+            <p>과도한 혈류·압력에 만성 노출된 폐소동맥이 방어적으로 수축 → 혈관벽 비후(중막비대, 초기엔 가역적) → 내막증식·섬유화 → 총상병변(plexiform lesion) 등 비가역적 구조 변화로 진행 (Heath-Edwards 분류 단계적 진행, 특발성 PAH와 동일한 병리 과정).</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>폐혈관저항(PVR) 점진적 상승</h4>
+            <p>혈관이 두꺼워지고 좁아질수록 저항 증가. 이 시기엔 좌→우 단락량이 줄어 증상이 일시적으로 나아 보이기도 하나 실제로는 병이 진행 중.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>단락 방향 역전 → 아이젠멩거 증후군</h4>
+            <p>PVR이 전신혈관저항(SVR)에 근접·역전 → 우→좌 단락으로 전환 → 저산소 정맥혈이 전신순환으로 직접 유입 → 청색증·곤봉지·이차성 적혈구증가증 등 임상상 발현.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Group 1 PAH로 확정</h4>
+            <p>이 시점의 폐혈관 병변은 구조적으로 고착되어 특발성 PAH와 병리학적으로 구분되지 않음 → &quot;선천성 심질환 관련 PAH — 아이젠멩거 증후군&quot;으로 Group 1에 포함.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <strong>임상적 함의:</strong> 아이젠멩거 단계에서는 VSD를 막는 수술을 하면 안 됨 — 우심실이 높아진 PVR을 이겨낼 배출구(단락)마저 사라져 급성 우심부전 위험. 치료는 결손을 유지한 채 PAH 표적치료제(ERA·PDE5i·프로스타사이클린), 적혈구증가증·저산소증 관리로 전환.
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSIS -->
+  <section class="panel" id="diagnosis">
+    <div class="card" style="margin-bottom:16px;">
+      <h3>3단계 진단 접근 (2022 ESC/ERS)</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>의심 (Suspicion)</h4>
+            <p>1차 진료의가 원인불명의 호흡곤란, 피로, 실신, 위험인자(결합조직질환·문맥고혈압·HIV·가족력·PE 병력 등)를 근거로 PH를 의심.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>검출 (Detection) — 심초음파</h4>
+            <p>삼첨판역류속도(TRV) &gt;2.8 m/s 및 우심실/좌심실 비율, 심실중격 편위, TAPSE/sPAP 비율 &lt;0.55, 우심실유출로 가속시간 &lt;105ms 등을 종합해 PH 확률(낮음/중간/높음)을 산정.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>확진 (Confirmation) — PH 전문센터</h4>
+            <p>중간/고 확률이거나 PAH·CTEPH 위험인자가 있는 경우 우심도자술(RHC)로 혈역학 확진. 환기관류스캔(V/Q scan)으로 CTEPH 배제, 필요 시 CT 폐혈관조영술, 폐기능검사, 자가항체, HIV 등 원인질환 평가 동반.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>주요 검사 항목</h3>
+        <table>
+          <tr><th>검사</th><th>목적</th></tr>
+          <tr><td>심초음파</td><td>선별검사, PH 확률 평가, 우심실 기능 추적</td></tr>
+          <tr><td>우심도자술 (RHC)</td><td>혈역학 확진, mPAP/PAWP/PVR/심박출량 측정 (진단의 gold standard)</td></tr>
+          <tr><td>환기관류 스캔 (V/Q scan)</td><td>CTEPH(Group 4) 선별, 민감도 높음</td></tr>
+          <tr><td>폐기능검사 · 흉부 HRCT</td><td>Group 3 (폐질환 관련 PH) 감별</td></tr>
+          <tr><td>6분 보행검사</td><td>운동능력 평가, 위험도·치료반응 추적</td></tr>
+          <tr><td>BNP/NT-proBNP</td><td>우심실 부하 및 예후 지표, 위험도 평가에 활용</td></tr>
+          <tr><td>혈관반응성 검사</td><td>IPAH 확진 시 칼슘채널차단제 반응군 선별</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>주의할 감별 포인트</h3>
+        <div class="callout warn">
+          RHC은 치료방침에 영향을 줄 것으로 예상될 때(PAH·CTEPH 의심) 시행하며, 좌심질환·폐질환에 의한 경도 PH가 명백한 경우는 반드시 필요하지 않음.
+        </div>
+        <div class="callout">
+          모세혈관후 PH(Group 2)와 모세혈관전 PH(Group 1)의 감별에는 PAWP뿐 아니라 임상적 맥락(좌심질환 위험인자, 심방세동, 비만 등)을 함께 고려.
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>우심도자술(RHC) 측정값 및 정상/이상 기준 <span class="tag">Hemodynamics</span></h3>
+      <p class="muted">RHC 자체가 최종 원인 그룹(1~5군)을 정하는 것은 아니며, 아래 수치로 &quot;모세혈관전/후/복합형&quot; 패턴을 확인한 뒤 임상·영상·검사 소견을 더해 그룹을 확정합니다.</p>
+      <table>
+        <tr><th>측정 항목</th><th>약어</th><th>정상 범위</th><th>PH 관련 기준 / 의미</th></tr>
+        <tr><td>평균 폐동맥압</td><td>mPAP</td><td>8–20 mmHg</td><td>&gt;20 mmHg → PH 진단 기준</td></tr>
+        <tr><td>폐동맥 쐐기압<br><span class="muted">(폐모세혈관쐐기압)</span></td><td>PAWP</td><td>≤15 mmHg</td><td>&gt;15 mmHg → 모세혈관후 성분 시사(좌심 원인, Group 2 양상)</td></tr>
+        <tr><td>폐혈관저항</td><td>PVR</td><td>&lt;2 WU</td><td>&gt;2 WU → 모세혈관전 성분 시사(Group 1/3/4/5 양상)</td></tr>
+        <tr><td>심박출량 / 심장지수</td><td>CO / CI</td><td>CI ≥2.5 L/min/m²</td><td>낮을수록 중증, 위험도 평가에 사용 (&lt;2.0 = 고위험)</td></tr>
+        <tr><td>우심방압</td><td>RAP (mRAP)</td><td>&lt;8 mmHg</td><td>&gt;14 mmHg → 우심부전 진행, 고위험 지표</td></tr>
+        <tr><td>경폐압차<br><span class="muted">(mPAP − PAWP)</span></td><td>TPG</td><td>&lt;12 mmHg</td><td>높으면 폐혈관 자체 병변(모세혈관전 성분) 시사</td></tr>
+        <tr><td>확장기폐동맥압차<br><span class="muted">(확장기 PAP − PAWP)</span></td><td>DPG</td><td>&lt;7 mmHg</td><td>&ge;7 mmHg → 복합형 PH(Cpc-PH)에서 폐혈관 병변 동반 시사</td></tr>
+        <tr><td>혼합정맥혈산소포화도</td><td>SvO2</td><td>65–75%</td><td>낮으면 심박출량 저하·조직 산소공급 저하 반영</td></tr>
+        <tr><td>급성 혈관반응성 검사</td><td>AVT</td><td>-</td><td>mPAP ≥10 mmHg 감소 및 &lt;40 mmHg 도달 + CO 유지/증가 시 양성 → 고용량 CCB 반응군(주로 IPAH)</td></tr>
+      </table>
+      <div class="callout">
+        예: mPAP 35, PAWP 10, PVR 6 WU → 모세혈관전 패턴 확인. 이후 자가항체 음성, 폐기능 정상, V/Q scan 정상, 심초음파상 선천성 심질환 없음 → 원인 불명 시 <strong>특발성 PAH(Group 1)</strong>로 확정하는 식.
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>왜 pre-/post-capillary 수치가 다르게 나올까? <span class="tag">병태생리 · 쉬운 설명</span></h3>
+      <p>혈액은 <strong>우심실 → 폐동맥(PA) → 폐소동맥(저항혈관) → 폐모세혈관 → 폐정맥 → 좌심방(LA)</strong> 순서로 흐릅니다. RHC에서 mPAP는 이 경로의 &quot;앞쪽&quot;인 폐동맥에서 측정하고, PAWP는 카테터를 작은 폐동맥 가지에 쐐기(wedge)처럼 밀어넣어 그 &quot;뒤쪽&quot;인 좌심방 압력을 간접적으로 측정한 값입니다.</p>
+      <p>수도관에 비유하면 이해가 쉽습니다. 관 중간에 <strong>좁아진 구간(저항)</strong>이 있으면 그 앞쪽 압력은 올라가고, 좁은 구간을 통과한 뒤쪽 압력은 정상으로 유지됩니다. 문제가 이 경로의 어느 지점에 있는지에 따라 PA압력과 PAWP가 다르게 나오는 것입니다.</p>
+
+      <div class="pathway-row-label">① 모세혈관전(Pre-capillary) PH — 문제가 폐소동맥 자체에 있을 때 (Group 1·3·4·5)</div>
+      <div class="pathway">
+        <div class="node">우심실 (RV)</div>
+        <div class="arrow">→</div>
+        <div class="gauge"><div>45</div><div class="g-label">PA (mPAP)</div></div>
+        <div class="arrow">→</div>
+        <div class="node problem">폐소동맥 저항 ↑<br><span style="font-weight:400;font-size:10.5px;">(수축·리모델링·혈전)</span></div>
+        <div class="arrow">→</div>
+        <div class="node">모세혈관 · 폐정맥</div>
+        <div class="arrow">→</div>
+        <div class="gauge"><div>8</div><div class="g-label">Wedge (PAWP)</div></div>
+        <div class="arrow">→</div>
+        <div class="node">좌심방 (LA)</div>
+      </div>
+      <p class="muted">→ 저항 &quot;앞&quot;인 PA압력만 상승, 저항을 통과한 &quot;뒤&quot;쪽 PAWP는 정상 유지 → PA와 PAWP 사이 압력차(TPG/DPG)가 커짐 → PVR 상승</p>
+
+      <div class="pathway-row-label">② 모세혈관후(Post-capillary) PH — 문제가 좌심 자체에 있을 때 (Group 2)</div>
+      <div class="pathway">
+        <div class="node">우심실 (RV)</div>
+        <div class="arrow">→</div>
+        <div class="gauge"><div>48</div><div class="g-label">PA (mPAP)</div></div>
+        <div class="arrow">→</div>
+        <div class="node">폐소동맥 (정상)</div>
+        <div class="arrow">→</div>
+        <div class="node">모세혈관 · 폐정맥</div>
+        <div class="arrow">→</div>
+        <div class="gauge"><div>22</div><div class="g-label">Wedge (PAWP)</div></div>
+        <div class="arrow">→</div>
+        <div class="node problem">좌심방/좌심실 압력 ↑<br><span style="font-weight:400;font-size:10.5px;">(심부전·판막질환)</span></div>
+      </div>
+      <p class="muted">→ 좌심방 압력 상승이 저항 없는 관을 통해 그대로 &quot;역방향 전달&quot; → PAWP도 함께 상승, PA와 PAWP 차이(TPG/DPG)는 작게 유지 (만성화 시 반응성 혈관수축이 겹치면 복합형 Cpc-PH로 전환되어 TPG/DPG도 같이 상승 가능)</p>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>RHC 압력 파형 — 카테터 풀백(pull-back) 시 정상 모양 <span class="tag">Waveform</span></h3>
+      <p class="muted">카테터가 우심방 → 우심실 → 폐동맥 → 쐐기 위치로 전진하며 압력 파형의 모양과 크기가 특징적으로 바뀝니다. (y축 단위: mmHg)</p>
+      <svg id="pullbackCanvas" class="wave-canvas" viewBox="0 0 1100 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RHC catheter pullback pressure waveform"><rect width="1100" height="260" fill="#fbfdfe"/><line x1="0" y1="226" x2="1100" y2="226" stroke="#e3e9ed"/><text x="2" y="229" font-size="10.5" fill="#7d8b94" font-family="sans-serif">0</text><line x1="0" y1="155" x2="1100" y2="155" stroke="#e3e9ed"/><text x="2" y="158" font-size="10.5" fill="#7d8b94" font-family="sans-serif">10</text><line x1="0" y1="85" x2="1100" y2="85" stroke="#e3e9ed"/><text x="2" y="88" font-size="10.5" fill="#7d8b94" font-family="sans-serif">20</text><line x1="0" y1="14" x2="1100" y2="14" stroke="#e3e9ed"/><text x="2" y="17" font-size="10.5" fill="#7d8b94" font-family="sans-serif">30</text><path d="M8,198 Q18,177 26,191 Q34,205 39,200 Q44,194 49,200 Q53,205 70,191 Q86,177 95,191 Q105,205 121,201 Q138,198 138,198 Q138,198 143,187 Q148,177 156,191 Q163,205 169,200 Q174,194 178,200 Q183,205 199,191 Q215,177 225,191 Q235,205 251,201 L267,198" fill="none" stroke="#5b6b76" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="138" y="252" font-size="12" font-weight="bold" fill="#5b6b76" font-family="sans-serif" text-anchor="middle">RA</text><line x1="275" y1="14" x2="275" y2="226" stroke="#c7d3da" stroke-dasharray="4,3"/><path d="M283,212 Q289,205 296,127 Q302,49 311,85 Q319,120 324,162 Q328,205 364,208 Q400,212 406,212 Q412,212 412,212 Q412,212 416,208 Q419,205 425,127 Q432,49 440,85 Q449,120 453,162 Q458,205 493,208 Q529,212 536,212 L542,212" fill="none" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="412" y="252" font-size="12" font-weight="bold" fill="#c0392b" font-family="sans-serif" text-anchor="middle">RV</text><line x1="550" y1="14" x2="550" y2="226" stroke="#c7d3da" stroke-dasharray="4,3"/><path d="M558,155 Q564,141 571,95 Q577,49 582,67 Q586,85 592,102 Q597,120 600,113 Q603,106 613,113 Q623,120 632,127 Q642,134 652,141 Q662,148 675,152 Q688,155 688,155 Q688,155 691,148 Q694,141 700,95 Q707,49 711,67 Q716,85 721,102 Q726,120 730,113 Q733,106 743,113 Q752,120 762,127 Q772,134 781,141 Q791,148 804,152 L817,155" fill="none" stroke="#1470a8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="688" y="252" font-size="12" font-weight="bold" fill="#1470a8" font-family="sans-serif" text-anchor="middle">PA</text><line x1="825" y1="14" x2="825" y2="226" stroke="#c7d3da" stroke-dasharray="4,3"/><path d="M833,177 Q843,155 848,166 Q852,177 857,180 Q861,184 867,177 Q872,169 877,173 Q882,177 893,162 Q904,148 913,162 Q921,177 932,180 Q943,184 953,180 Q962,177 962,177 Q962,177 968,166 Q973,155 977,166 Q982,177 986,180 Q991,184 996,177 Q1001,169 1007,173 Q1012,177 1023,162 Q1034,148 1042,162 Q1051,177 1062,180 Q1073,184 1082,180 L1092,177" fill="none" stroke="#0e8f8f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="962" y="252" font-size="12" font-weight="bold" fill="#0e8f8f" font-family="sans-serif" text-anchor="middle">PAWP</text></svg>
+      <div class="pill-row">
+        <span class="pill">RA: a·c·v파, 2–8 mmHg</span>
+        <span class="pill">RV: 수축기 ~25 / 이완기 ~0–2 mmHg (급격한 상승·하강)</span>
+        <span class="pill">PA: 수축기 ~25 / 이완기 ~10 mmHg (dicrotic notch 있음)</span>
+        <span class="pill">PAWP: a·v파, 평균 ~8 mmHg (RA 파형과 유사하나 지연됨)</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>Pre- vs Post-capillary PH — PA·PAWP 파형 비교</h3>
+      <p class="muted">빨강 = 폐동맥압(PA), 파랑 = 쐐기압(PAWP). 점선은 각 평균값. 두 선의 간격이 클수록 TPG/DPG(따라서 PVR)가 크다는 의미입니다.</p>
+      <div class="grid cols-3">
+        <div>
+          <svg id="waveNormal" class="wave-canvas" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RHC pressure waveform chart"><rect width="380" height="260" fill="#fbfdfe"/><line x1="34" y1="246" x2="370" y2="246" stroke="#e3e9ed"/><text x="4" y="249" font-size="10.5" fill="#7d8b94" font-family="sans-serif">0</text><line x1="34" y1="194" x2="370" y2="194" stroke="#e3e9ed"/><text x="4" y="197" font-size="10.5" fill="#7d8b94" font-family="sans-serif">20</text><line x1="34" y1="143" x2="370" y2="143" stroke="#e3e9ed"/><text x="4" y="146" font-size="10.5" fill="#7d8b94" font-family="sans-serif">40</text><line x1="34" y1="91" x2="370" y2="91" stroke="#e3e9ed"/><text x="4" y="94" font-size="10.5" fill="#7d8b94" font-family="sans-serif">60</text><line x1="34" y1="40" x2="370" y2="40" stroke="#e3e9ed"/><text x="4" y="43" font-size="10.5" fill="#7d8b94" font-family="sans-serif">80</text><polyline points="34,14 34,246 370,246" fill="none" stroke="#9fb4bf"/><path d="M34,215 Q40,210 45,196 Q51,182 55,187 Q59,192 63,197 Q68,202 72,200 Q77,197 83,200 Q90,202 98,205 Q107,207 115,210 Q124,212 135,214 Q146,215 146,215 Q146,215 149,212 Q152,210 157,196 Q163,182 167,187 Q171,192 175,197 Q180,202 184,200 Q189,197 195,200 Q202,202 210,205 Q219,207 227,210 Q236,212 247,214 Q258,215 258,215 Q258,215 261,212 Q264,210 269,196 Q275,182 279,187 Q283,192 287,197 Q292,202 296,200 Q301,197 307,200 Q314,202 322,205 Q331,207 339,210 Q348,212 359,214 L370,215" fill="none" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="207" x2="370" y2="207" stroke="#c0392b" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="314" y="202" font-size="10.5" font-weight="bold" fill="#c0392b" font-family="sans-serif">PA 15</text><path d="M34,228 Q43,220 47,224 Q51,228 55,229 Q59,231 63,228 Q68,225 72,227 Q77,228 86,223 Q96,218 103,223 Q110,228 120,229 Q129,231 138,229 Q146,228 146,228 Q146,228 150,224 Q155,220 159,224 Q163,228 167,229 Q171,231 175,228 Q180,225 184,227 Q189,228 198,223 Q208,218 215,223 Q222,228 232,229 Q241,231 250,229 Q258,228 258,228 Q258,228 262,224 Q267,220 271,224 Q275,228 279,229 Q283,231 287,228 Q292,225 296,227 Q301,228 310,223 Q320,218 327,223 Q334,228 344,229 Q353,231 362,229 L370,228" fill="none" stroke="#1470a8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="225" x2="370" y2="225" stroke="#1470a8" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="38" y="238" font-size="10.5" font-weight="bold" fill="#1470a8" font-family="sans-serif">PAWP 8</text></svg>
+          <p class="muted" style="text-align:center;margin-top:6px;">정상<br>PA·PAWP 모두 낮고 간격도 작음</p>
+        </div>
+        <div>
+          <svg id="wavePre" class="wave-canvas" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RHC pressure waveform chart"><rect width="380" height="260" fill="#fbfdfe"/><line x1="34" y1="246" x2="370" y2="246" stroke="#e3e9ed"/><text x="4" y="249" font-size="10.5" fill="#7d8b94" font-family="sans-serif">0</text><line x1="34" y1="194" x2="370" y2="194" stroke="#e3e9ed"/><text x="4" y="197" font-size="10.5" fill="#7d8b94" font-family="sans-serif">20</text><line x1="34" y1="143" x2="370" y2="143" stroke="#e3e9ed"/><text x="4" y="146" font-size="10.5" fill="#7d8b94" font-family="sans-serif">40</text><line x1="34" y1="91" x2="370" y2="91" stroke="#e3e9ed"/><text x="4" y="94" font-size="10.5" fill="#7d8b94" font-family="sans-serif">60</text><line x1="34" y1="40" x2="370" y2="40" stroke="#e3e9ed"/><text x="4" y="43" font-size="10.5" fill="#7d8b94" font-family="sans-serif">80</text><polyline points="34,14 34,246 370,246" fill="none" stroke="#9fb4bf"/><path d="M34,164 Q40,153 45,109 Q51,66 55,78 Q59,91 63,107 Q68,122 72,117 Q77,112 83,120 Q90,127 98,135 Q107,143 115,149 Q124,156 135,160 Q146,164 146,164 Q146,164 149,158 Q152,153 157,109 Q163,66 167,78 Q171,91 175,107 Q180,122 184,117 Q189,112 195,120 Q202,127 210,135 Q219,143 227,149 Q236,156 247,160 Q258,164 258,164 Q258,164 261,158 Q264,153 269,109 Q275,66 279,78 Q283,91 287,107 Q292,122 296,117 Q301,112 307,120 Q314,127 322,135 Q331,143 339,149 Q348,156 359,160 L370,164" fill="none" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="130" x2="370" y2="130" stroke="#c0392b" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="314" y="125" font-size="10.5" font-weight="bold" fill="#c0392b" font-family="sans-serif">PA 45</text><path d="M34,228 Q43,220 47,224 Q51,228 55,229 Q59,231 63,228 Q68,225 72,227 Q77,228 86,223 Q96,218 103,223 Q110,228 120,229 Q129,231 138,229 Q146,228 146,228 Q146,228 150,224 Q155,220 159,224 Q163,228 167,229 Q171,231 175,228 Q180,225 184,227 Q189,228 198,223 Q208,218 215,223 Q222,228 232,229 Q241,231 250,229 Q258,228 258,228 Q258,228 262,224 Q267,220 271,224 Q275,228 279,229 Q283,231 287,228 Q292,225 296,227 Q301,228 310,223 Q320,218 327,223 Q334,228 344,229 Q353,231 362,229 L370,228" fill="none" stroke="#1470a8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="225" x2="370" y2="225" stroke="#1470a8" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="38" y="238" font-size="10.5" font-weight="bold" fill="#1470a8" font-family="sans-serif">PAWP 8</text></svg>
+          <p class="muted" style="text-align:center;margin-top:6px;">모세혈관전 PH<br>PA↑ · PAWP 정상 → 간격 큼</p>
+        </div>
+        <div>
+          <svg id="wavePost" class="wave-canvas" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RHC pressure waveform chart"><rect width="380" height="260" fill="#fbfdfe"/><line x1="34" y1="246" x2="370" y2="246" stroke="#e3e9ed"/><text x="4" y="249" font-size="10.5" fill="#7d8b94" font-family="sans-serif">0</text><line x1="34" y1="194" x2="370" y2="194" stroke="#e3e9ed"/><text x="4" y="197" font-size="10.5" fill="#7d8b94" font-family="sans-serif">20</text><line x1="34" y1="143" x2="370" y2="143" stroke="#e3e9ed"/><text x="4" y="146" font-size="10.5" fill="#7d8b94" font-family="sans-serif">40</text><line x1="34" y1="91" x2="370" y2="91" stroke="#e3e9ed"/><text x="4" y="94" font-size="10.5" fill="#7d8b94" font-family="sans-serif">60</text><line x1="34" y1="40" x2="370" y2="40" stroke="#e3e9ed"/><text x="4" y="43" font-size="10.5" fill="#7d8b94" font-family="sans-serif">80</text><polyline points="34,14 34,246 370,246" fill="none" stroke="#9fb4bf"/><path d="M34,164 Q40,153 45,109 Q51,66 55,78 Q59,91 63,107 Q68,122 72,117 Q77,112 83,120 Q90,127 98,135 Q107,143 115,149 Q124,156 135,160 Q146,164 146,164 Q146,164 149,158 Q152,153 157,109 Q163,66 167,78 Q171,91 175,107 Q180,122 184,117 Q189,112 195,120 Q202,127 210,135 Q219,143 227,149 Q236,156 247,160 Q258,164 258,164 Q258,164 261,158 Q264,153 269,109 Q275,66 279,78 Q283,91 287,107 Q292,122 296,117 Q301,112 307,120 Q314,127 322,135 Q331,143 339,149 Q348,156 359,160 L370,164" fill="none" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="130" x2="370" y2="130" stroke="#c0392b" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="314" y="125" font-size="10.5" font-weight="bold" fill="#c0392b" font-family="sans-serif">PA 45</text><path d="M34,200 Q43,184 47,191 Q51,197 55,200 Q59,202 63,198 Q68,194 72,197 Q77,200 86,189 Q96,179 103,188 Q110,197 120,200 Q129,202 138,201 Q146,200 146,200 Q146,200 150,192 Q155,184 159,191 Q163,197 167,200 Q171,202 175,198 Q180,194 184,197 Q189,200 198,189 Q208,179 215,188 Q222,197 232,200 Q241,202 250,201 Q258,200 258,200 Q258,200 262,192 Q267,184 271,191 Q275,197 279,200 Q283,202 287,198 Q292,194 296,197 Q301,200 310,189 Q320,179 327,188 Q334,197 344,200 Q353,202 362,201 L370,200" fill="none" stroke="#1470a8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="34" y1="189" x2="370" y2="189" stroke="#1470a8" stroke-width="1.1" stroke-dasharray="3,4" opacity="0.55"/><text x="38" y="202" font-size="10.5" font-weight="bold" fill="#1470a8" font-family="sans-serif">PAWP 22</text></svg>
+          <p class="muted" style="text-align:center;margin-top:6px;">모세혈관후 PH<br>PA↑ · PAWP도 ↑ → 간격 작음</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RISK -->
+  <section class="panel" id="risk">
+    <div class="card" style="margin-bottom:16px;">
+      <h3>ESC/ERS 3단계 위험도 모델 (Group 1 PAH)</h3>
+      <p class="muted">추적관찰 시 최대 4단계(저/중저/중고/고위험) 모델 사용 권장. 1년 사망률 추정치 기준.</p>
+      <table>
+        <tr><th>변수</th><th class="risk-low">저위험 (&lt;5%)</th><th class="risk-mid">중등도위험 (5–20%)</th><th class="risk-high">고위험 (&gt;20%)</th></tr>
+        <tr><td>WHO 기능분류(FC)</td><td>I, II</td><td>III</td><td>IV</td></tr>
+        <tr><td>6분 보행거리</td><td>&gt;440 m</td><td>165–440 m</td><td>&lt;165 m</td></tr>
+        <tr><td>BNP / NT-proBNP</td><td>낮음</td><td>중등도 상승</td><td>현저히 상승</td></tr>
+        <tr><td>우심방압 (RAP)</td><td>&lt;8 mmHg</td><td>8–14 mmHg</td><td>&gt;14 mmHg</td></tr>
+        <tr><td>심장지수 (CI)</td><td>≥2.5 L/min/m²</td><td>2.0–2.4</td><td>&lt;2.0</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>간이 위험도 참고 도구 <span class="tag">참고용 · 비공식 계산</span></h3>
+      <p class="muted">아래는 교육/참고 목적의 단순화된 도구이며 실제 임상 의사결정에는 공식 ESC/ERS 4-strata 계산기 또는 REVEAL 2.0 스코어를 사용해야 합니다.</p>
+      <div class="calc-row">
+        <span>WHO 기능분류 (FC)</span>
+        <select id="fc"><option value="1">I</option><option value="2">II</option><option value="3">III</option><option value="4">IV</option></select>
+      </div>
+      <div class="calc-row">
+        <span>6분 보행거리 (m)</span>
+        <input type="number" id="walk" value="400" min="0" max="800">
+      </div>
+      <div class="calc-row">
+        <span>NT-proBNP 상승 정도</span>
+        <select id="bnp"><option value="1">정상/경도</option><option value="2">중등도</option><option value="3">현저히 상승</option></select>
+      </div>
+      <button onclick="calcRisk()" style="margin-top:12px;background:var(--teal);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-weight:700;cursor:pointer;">위험도 참고값 계산</button>
+      <div id="riskResult"></div>
+    </div>
+  </section>
+
+  <!-- TREATMENT -->
+  <section class="panel" id="treatment">
+    <div class="card" style="margin-bottom:16px;">
+      <h3>치료 원칙 (군별 접근)</h3>
+      <div class="grid cols-2">
+        <div>
+          <p><strong>Group 1 (PAH)</strong> — 표적치료제 확립. 저/중위험군은 초기 병용요법(ERA+PDE5i) 우선 고려, 고위험군은 3제 병용(정맥/피하 프로스타사이클린 포함) 고려.</p>
+          <p><strong>Group 4 (CTEPH)</strong> — 수술적 완치(PEA) 우선 평가, 불가 시 BPA 또는 riociguat.</p>
+        </div>
+        <div>
+          <p><strong>Group 2 (좌심질환)</strong> — PAH 표적치료제 비권장, 기저 심질환(심부전·판막질환) 치료가 핵심.</p>
+          <p><strong>Group 3 (폐질환)</strong> — 저산소혈증 교정(산소치료), 기저 폐질환 관리 우선. PAH 표적치료제는 일반적으로 권장되지 않음(선택적 중증 사례 제외).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Group 1 PAH 치료 알고리즘 (2024 WSPH 개정)</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>급성 혈관반응성 검사 양성 IPAH</h4>
+            <p>고용량 칼슘채널차단제(CCB) 우선 시도, 반응 유지 확인 후 지속.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓ (CCB 비반응 또는 기타 PAH)</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>초기 위험도 평가: 고위험 vs 비고위험 (이분법)</h4>
+            <p>2024 개정에서는 초기 치료 결정을 &quot;고위험/비고위험&quot; 이분 모델로 단순화. 비고위험군은 ERA+PDE5i 병용, 고위험군은 정맥/피하 프로스타사이클린을 포함한 초기 3제 병용 적극 고려.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>추적관찰: 4단계 모델(저/중저/중고/고위험)</h4>
+            <p>목표는 저위험 상태 도달. 목표 미달 시 약제 추가/전환, 고위험 지속 시 폐이식 평가 병행.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card drugclass-card era">
+        <h3>내피소 수용체 길항제 (ERA)</h3>
+        <p>엔도텔린 경로 차단 → 혈관수축·평활근증식 억제</p>
+        <div class="pill-row">
+          <span class="pill">Ambrisentan</span>
+          <span class="pill">Bosentan</span>
+          <span class="pill">Macitentan</span>
+        </div>
+        <p class="muted">간독성 모니터링 필요 (특히 bosentan)</p>
+      </div>
+      <div class="card drugclass-card pde5">
+        <h3>PDE5 억제제 / sGC 자극제</h3>
+        <p>NO-cGMP 경로 증강을 통한 혈관확장</p>
+        <div class="pill-row">
+          <span class="pill">Sildenafil</span>
+          <span class="pill">Tadalafil</span>
+          <span class="pill drugclass-card sgc">Riociguat (sGC 자극제)</span>
+        </div>
+        <p class="muted">PDE5i와 riociguat 병용은 금기 (저혈압 위험)</p>
+      </div>
+      <div class="card drugclass-card prosta">
+        <h3>프로스타사이클린 경로 약제</h3>
+        <p>혈관확장 + 항혈소판 + 항증식 효과, 중증/고위험군 핵심 약제</p>
+        <div class="pill-row">
+          <span class="pill">Epoprostenol (IV)</span>
+          <span class="pill">Treprostinil (IV/SC/흡입/경구)</span>
+          <span class="pill">Iloprost (흡입)</span>
+          <span class="pill">Selexipag (경구, IP수용체작용제)</span>
+        </div>
+      </div>
+      <div class="card drugclass-card sgc">
+        <h3>보조/일반 관리</h3>
+        <ul>
+          <li>이뇨제 — 우심부전에 의한 체액저류 조절</li>
+          <li>산소치료 — 저산소혈증 동반 시</li>
+          <li>항응고 — 특정 아형(예: IPAH 일부)에서 선택적 고려, 일률적 권장 아님</li>
+          <li>재활/운동요법, 예방접종, 임신 회피 상담</li>
+          <li>폐/심폐이식 평가 — 최적 약물치료에도 고위험 지속 시</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICU / SEVERE MANAGEMENT -->
+  <section class="panel" id="icu">
+    <div class="card" style="margin-bottom:16px;">
+      <h3>전부하(Preload) · 후부하(Afterload) 기초 <span class="tag">쉬운 설명</span></h3>
+      <div class="grid cols-2">
+        <div>
+          <p><strong>전부하(Preload)</strong> — 심실이 수축하기 직전, 얼마나 혈액이 차서 벽이 늘어나 있는지. 풍선을 수축 직전에 얼마나 부풀려 놨는지에 비유할 수 있습니다. 어느 정도까지는 많이 채워질수록 더 세게 수축하지만(Frank-Starling 법칙), 너무 늘어나면 오히려 수축력이 떨어집니다.</p>
+        </div>
+        <div>
+          <p><strong>후부하(Afterload)</strong> — 심실이 혈액을 밀어낼 때 맞서야 하는 저항. 무겁고 뻑뻑한 문을 밀어 여는 것에 비유할 수 있습니다. 후부하가 높을수록 같은 양을 뿜어내는 데 더 많은 힘(에너지)이 필요합니다.</p>
+        </div>
+      </div>
+      <table style="margin-top:10px;">
+        <tr><th>구분</th><th>의미</th><th>좌심실(LV) 지표</th><th>우심실(RV) 지표</th></tr>
+        <tr><td>전부하</td><td>수축 전 심실 충만 정도</td><td>PAWP, LVEDP</td><td>RAP, CVP</td></tr>
+        <tr><td>후부하</td><td>수축 시 맞서야 할 저항</td><td>전신혈관저항(SVR), 대동맥압</td><td>폐혈관저항(PVR), 폐동맥압(mPAP)</td></tr>
+      </table>
+      <div class="callout">PAH의 본질은 <strong>우심실 후부하(PVR) 상승</strong>입니다. 이를 오래 견디다 우심실이 대상부전에 빠지면, 이번엔 <strong>전부하(우심실 크기·충만압)</strong>가 이차적으로 문제가 되는 구조입니다.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>급성 우심부전 (PAH Crisis) — ICU 관리 흐름 <span class="tag">병원 사망률 30–40%</span></h3>
+      <p class="muted">대부분은 입원 → TTE 이상소견 → 검사·진단 → 약처방 후 퇴원 코스지만, 중증 대상부전(급성 우심부전)은 ICU 관리가 필요합니다.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>유발인자 파악 및 교정</h4>
+            <p>감염(패혈증), 신규 부정맥(특히 심방세동/조동), 폐색전증, PAH 약물 순응도 저하, 빈혈/철결핍, 임신, 수술/마취 등. 유발인자 교정 없이는 회복이 어려움.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>신중한 수액 관리</h4>
+            <p>대부분 이미 체액 과다 상태 → 이뇨제/CRRT 한외여과로 볼륨 제거가 기본. 명백한 저혈량일 때만 소량 수액을 신중히 투여.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>우심실 후부하 감소</h4>
+            <p>경구 PAH 약제 유지, 흡입 NO·흡입 iloprost, 정맥 epoprostenol/treprostinil 개시·증량. PDE5i + riociguat 병용은 저혈압 위험으로 금기.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>수축력 보조 (inotrope)</h4>
+            <p>저용량 dobutamine 1차(빈맥·부정맥 주의), milrinone(SVR 저하 → 승압제 병용 필요), levosimendan(RV-PA 커플링 개선 보고).</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>승압제 (vasopressor)</h4>
+            <p>norepinephrine 1차 (PVR을 덜 올리면서 강심 효과 동반). 저항성 쇼크에는 저용량 vasopressin 추가 고려 (폐혈관에 영향 적음).</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h4>부정맥 관리</h4>
+            <p>신규 심방세동/조동은 심방수축 소실을 잘 견디지 못하므로 약물 치료보다 조기 카디오버전을 적극 고려.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h4>산소화 · 환기</h4>
+            <p>저산소혈증·고탄산혈증·산증은 모두 폐혈관수축 악화 요인 → 철저히 교정. 삽관/양압환기는 우심실 후부하 증가·전부하 감소로 심정지 위험 → 최대한 회피, 불가피 시 저혈압 최소화 유도.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">8</div>
+          <div class="step-body">
+            <h4>ECMO</h4>
+            <p>위 치료에 불응하는 쇼크 → V-A ECMO를 회복 또는 폐이식으로의 가교로 사용. 가역적 유발인자(감염 등)가 있으면 회복 가교 예후가 더 좋음.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <div class="step-num">9</div>
+          <div class="step-body">
+            <h4>전문센터 이송 · 폐이식 평가</h4>
+            <p>자원이 부족한 병원은 PH 전문센터로 조기 전원 고려, 다학제 협진 및 폐이식 평가 병행.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>왜 우심부전인데 볼륨을 빼는가? <span class="tag">Starling curve · 심실간 상호의존</span></h3>
+      <p>급성 대상부전 우심실은 이미 Frank-Starling 곡선의 평평해진/하강하는 구간에 있습니다. 즉 이미 너무 늘어나 있어서, 볼륨을 더 넣어도 박출량은 거의 늘지 않고 우심실만 더 팽창합니다.</p>
+      <p>더 중요한 문제는 <strong>심실간 상호의존(ventricular interdependence)</strong>입니다. 우심실과 좌심실은 중격과 심막을 공유하는데, 우심실이 늘어나면:</p>
+      <ul>
+        <li>중격이 좌측으로 밀려 좌심실 충만공간을 줄임 → 좌심실 전부하 감소 → 심박출량·혈압 저하</li>
+        <li>삼첨판륜까지 늘어나 삼첨판역류 심화 → 뿜어낸 혈액이 우심방으로 새는 악순환</li>
+        <li>우심실 벽장력 증가 → 산소요구량 증가 + 우심실 관류압(대동맥이완기압−우심실압) 저하 → 우심실 자체 허혈 위험</li>
+      </ul>
+      <div class="callout">따라서 이미 과충만된 우심실에서는 볼륨 제거(이뇨/CRRT 한외여과)로 크기와 벽장력을 줄여 중격 위치를 정상화시키는 것이 오히려 좌심실 충만·심박출량을 개선시킵니다. 급성 좌심부전(폐부종)에 수액을 안 주는 것과 같은 논리입니다.</div>
+      <div class="callout warn"><strong>예외:</strong> 패혈증에 의한 혈관확장, 과도한 이뇨, 경구섭취 부족 등으로 실제 저혈량인 경우 — RAP가 낮고 임상적 탈수 소견이 있다면 소량 수액을 신중히 시도. 볼륨 상태 판단은 RAP·경정맥압·심초음파 IVC·부종 유무로 먼저 확인.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>CRRT 볼륨 제거 중 혈압 상승 — 침상 판단 흐름 <span class="tag">실전 시나리오</span></h3>
+      <p class="muted">CRRT + norepinephrine 유지 중 오후부터 혈압이 오르는 경우, 혈압 수치만으로는 판단할 수 없고 아래 트렌드를 함께 봐야 합니다.</p>
+      <table>
+        <tr><th>패턴</th><th>해석</th><th>대응</th></tr>
+        <tr><td>Norepi 용량 ↓ 하면서 BP ↑</td><td class="risk-low">디컨제스천 효과로 심박출량 개선 (좋은 신호)</td><td>UF 계속 진행, norepi 추가 감량 시도</td></tr>
+        <tr><td>Norepi 용량 그대로/↑ 인데 BP ↑, 빈맥 없음</td><td class="risk-mid">통증·진정 부족·섬망·방광팽만 등 다른 자극 요인 가능성</td><td>UF 속도는 유지, 자극 원인부터 확인·교정</td></tr>
+        <tr><td>BP ↑ + 빈맥 동반</td><td class="risk-high">UF 속도가 혈장 재충전 속도를 초과 → 혈관내 용적 저하의 조기 경고</td><td>UF 속도 유지/소폭 감량 후 재평가, 가속 금지</td></tr>
+      </table>
+      <p class="muted" style="margin-top:8px;">판단은 한 시점의 혈압이 아니라 4–6시간 단위 트렌드로: norepi 요구량, 심박수, RAP/CVP, 초음파 우심실 크기·IVC, 젖산·말초관류를 함께 확인.</p>
+    </div>
+
+    <div class="card">
+      <h3>강심제 · 승압제 비교 <span class="tag">Quick Reference</span></h3>
+      <table>
+        <tr><th>약제</th><th>분류</th><th>폐혈관/전신혈관 영향</th><th>주의점</th></tr>
+        <tr><td>Dobutamine</td><td>β1 위주 inotrope</td><td>PVR 큰 변화 없음, SVR 약간 저하</td><td>저용량 유지, 빈맥·부정맥 위험 (고용량 회피)</td></tr>
+        <tr><td>Milrinone</td><td>PDE3 억제 inodilator</td><td>PVR 감소, SVR도 함께 감소</td><td>전신 저혈압 흔함 → 승압제 병용 필요한 경우 많음</td></tr>
+        <tr><td>Levosimendan</td><td>칼슘감작 inodilator</td><td>PVR 감소, RV-PA 커플링 개선 보고</td><td>저혈압 가능, 반감기 긴 대사산물 주의</td></tr>
+        <tr><td>Norepinephrine</td><td>α1 위주 vasopressor (β1 동반)</td><td>SVR 상승, PVR은 phenylephrine 대비 덜 상승</td><td>RV 관류압 유지 목적의 1차 승압제</td></tr>
+        <tr><td>Vasopressin (저용량)</td><td>V1 수용체 작용 vasopressor</td><td>SVR 상승, 폐혈관에는 영향 적음</td><td>저항성 쇼크에서 norepi 보조/병용, 고용량은 회피</td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  임상 참고자료 요약 · 2022 ESC/ERS Pulmonary Hypertension Guidelines (Eur Heart J 2022;43:3618) 및 2024 7th World Symposium on Pulmonary Hypertension (Eur Respir J 2024) 기반 · 실제 진단/치료는 최신 원문 및 전문의 판단 필요
+</footer>
+
+<script>
+  function calcRisk(){
+    const fc = parseInt(document.getElementById('fc').value);
+    const walk = parseFloat(document.getElementById('walk').value);
+    const bnp = parseInt(document.getElementById('bnp').value);
+
+    let score = 0;
+    // FC scoring
+    score += fc; // 1~4
+    // walk distance scoring (lower distance = higher risk)
+    if(walk < 165) score += 4;
+    else if(walk <= 440) score += 2;
+    else score += 1;
+    // bnp scoring
+    score += bnp * 1.3;
+
+    const avg = score / 3;
+    let label, cls, msg;
+    if(avg <= 2){
+      label = "저위험 (참고)"; cls="risk-low";
+      msg = "제시된 값들은 저위험 범주에 가깝습니다. 목표(저위험 유지) 달성 여부를 정기 추적하세요.";
+    } else if(avg <= 3){
+      label = "중등도위험 (참고)"; cls="risk-mid";
+      msg = "중등도 위험 범주에 가깝습니다. 병용요법 강화 및 재평가 주기 단축을 고려할 근거가 될 수 있습니다.";
+    } else {
+      label = "고위험 (참고)"; cls="risk-high";
+      msg = "고위험 범주에 가깝습니다. 3제 병용요법(정맥/피하 프로스타사이클린 포함) 및 폐이식 평가를 고려할 근거가 될 수 있습니다.";
+    }
+
+    const box = document.getElementById('riskResult');
+    box.className = cls;
+    box.style.background = cls === 'risk-low' ? '#eafaf0' : cls === 'risk-mid' ? '#fff8e6' : '#fdecea';
+    box.innerHTML = `<div>${label}</div><div style="font-weight:400;font-size:12.5px;margin-top:6px;color:var(--muted)">${msg}</div>`;
+  }
+
+</script>
+
+</body>
+</html>
